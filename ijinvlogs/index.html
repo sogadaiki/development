@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>偉人vlogs - もしも偉人達にiPhoneが届いたら | プロンプト配布中</title>
+    <!-- 
+      NOTE: Tailwind CSSはサイトのレイアウトに必須のため残しています。
+      本来は、プロジェクトで使っているクラスのみを抽出したCSSファイルを生成し、それを読み込むのがベストです。
+    -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* NOTE: Google Fontsはサイトの見た目に重要ですが、外部リソースです。
+          パフォーマンスを最大化するには、フォントファイルをダウンロードし、自身のサーバーから読み込む方法があります。
+        */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
+        
+        * {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(45deg, #1a1a1a, #2d1810, #1a1a1a);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .floating-elements::before,
+        .floating-elements::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, rgba(255,215,0,0.1), rgba(255,165,0,0.1));
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        .floating-elements::before {
+            top: 20%;
+            left: -100px;
+            animation-delay: 0s;
+        }
+        
+        .floating-elements::after {
+            top: 60%;
+            right: -100px;
+            animation-delay: 7s;
+        }
+        
+        @keyframes float {
+            from { transform: translateX(-200px) rotate(0deg); }
+            to { transform: translateX(calc(100vw + 200px)) rotate(360deg); }
+        }
+        
+        .ranking-slider {
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .ranking-slider::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .ranking-card {
+            min-width: 280px;
+            transition: all 0.3s ease;
+        }
+        
+        .ranking-card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        
+        .ranking-number {
+            font-size: 120px;
+            font-weight: 900;
+            line-height: 0.8;
+            color: transparent;
+            -webkit-text-stroke: 3px #FFD700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .netflix-red {
+            background: linear-gradient(135deg, #E50914, #B81D24);
+        }
+        
+        .gold-text {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .scroll-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.7);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 20;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .scroll-arrow:hover {
+            background: rgba(0,0,0,0.9);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .scroll-arrow.left {
+            left: 10px;
+        }
+        
+        .scroll-arrow.right {
+            right: 10px;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-90 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-red-500">偉人vlogs</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="https://www.youtube.com/@ijinvlogs" class="text-red-500 hover:text-red-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10,15L15.19,12L10,9V15M21.56,7.17C21.69,7.64 21.78,8.27 21.84,9.07C21.91,9.87 21.94,10.56 21.94,11.16L22,12C22,14.19 21.84,15.8 21.56,16.83C21.31,17.73 20.73,18.31 19.83,18.56C19.36,18.69 18.73,18.78 17.93,18.84C17.13,18.91 16.44,18.94 15.84,18.94L15,19C12.81,19 11.2,18.84 10.17,18.56C9.27,18.31 8.69,17.73 8.44,16.83C8.31,16.36 8.22,15.73 8.16,14.93C8.09,14.13 8.06,13.44 8.06,12.84L8,12C8,9.81 8.16,8.2 8.44,7.17C8.69,6.27 9.27,5.69 10.17,5.44C10.64,5.31 11.27,5.22 12.07,5.16C12.87,5.09 13.56,5.06 14.16,5.06L15,5C17.19,5 18.8,5.16 19.83,5.44C20.73,5.69 21.31,6.27 21.56,7.17Z"></path></svg>
+                    </a>
+                    <a href="https://www.tiktok.com/@ijinvlogs" class="text-white hover:text-gray-300 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.1,10.2C16.1,10.2 16.2,9.2 17.2,9.2C18.2,9.2 18.2,10.2 18.2,10.2L18.3,12.2C18.3,12.2 18.2,13.2 17.2,13.2C16.2,13.2 16.1,12.2 16.1,12.2V10.2M12.5,10.3C12.5,10.3 12.5,8.6 14.3,8.2C14.3,8.2 15.1,8 15.1,7.3C15.1,6.6 14.3,6.5 14.3,6.5C14.3,6.5 12.9,6.5 12.3,7.6C12.3,7.6 11.8,8.5 11.8,9.5L11.9,14.7C11.9,14.7 11.8,15.7 10.8,15.7C9.8,15.7 9.7,14.7 9.7,14.7V10.3C9.7,10.3 9.7,8.6 11.5,8.2C11.5,8.2 12.3,8 12.3,7.3C12.3,6.6 11.5,6.5 11.5,6.5C11.5,6.5 10.1,6.5 9.5,7.6C9.5,7.6 9,8.5 9,9.5L9.1,14.9C9.1,14.9 8.8,17.5 6,17.5C6,17.5 5.5,17.5 5.5,16.8C5.5,16.1 6.3,16 6.3,16C6.3,16 7.5,16.1 7.5,14.9V9.4C7.5,9.4 7.6,6.8 10.4,6.8C10.4,6.8 10.9,6.8 10.9,7.5C10.9,8.2 10.1,8.3 10.1,8.3C10.1,8.3 8.9,8.2 8.9,9.4V10.1H11.3V8.8C11.3,8.8 11.2,6.1 14,6.1C14,6.1 14.5,6.1 14.5,6.8C14.5,7.5 13.7,7.6 13.7,7.6C13.7,7.6 12.5,7.5 12.5,8.7V14.8C12.5,14.8 12.6,17.5 15.4,17.5C15.4,17.5 15.9,17.5 15.9,16.8C15.9,16.1 15.1,16 15.1,16C15.1,16 13.9,16.1 13.9,14.8V10.2C13.9,10.2 13.8,9.2 14.8,9.2C15.8,9.2 15.9,10.2 15.9,10.2L16.1,14.8C16.1,14.8 16.2,17.5 18.9,17.5C18.9,17.5 19.4,17.5 19.4,16.8C19.4,16.1 18.6,16 18.6,16C18.6,16 17.4,16.1 17.4,14.8V10.2L16.1,10.2Z"></path></svg>
+                    </a>
+                    <a href="https://x.com/AiCordia83729" class="text-blue-400 hover:text-blue-300 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                    </a>
+                    <a href="https://note.com/cordia/n/nd5d9a1c20bbb" class="netflix-red text-white px-4 py-2 rounded font-medium hover:opacity-90 transition-opacity">
+                        プロンプト配布
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center hero-bg overflow-hidden">
+        <div class="floating-elements"></div>
+        
+        <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
+            <h1 class="text-6xl md:text-8xl font-black mb-6">
+                <span class="gold-text">もしも偉人達に</span><br>
+                <span class="text-white">iPhoneが届いたら</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl mb-4 text-gray-300">
+                🎥 映画クオリティの動画配信
+            </p>
+            
+            <div class="mb-8">
+                <div class="inline-block bg-gradient-to-r from-yellow-400 to-red-500 text-black px-6 py-3 rounded-full font-bold text-lg mb-4">
+                    開始わずか10日で累計50万再生突破！
+                </div>
+                <p class="text-gray-400">制作に使ってるプロンプトを限定配布中</p>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="https://note.com/cordia/n/nd5d9a1c20bbb" class="netflix-red text-white px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 transition-opacity flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8,3H16V5H8V3M16,21H8V19H16V21M18,21C19.1,21 20,20.1 20,19V5C20,3.9 19.1,3 18,3H17V1H7V3H6C4.9,3 4,3.9 4,5V19C4,20.1 4.9,21 6,21H7V23H17V21H18M6,5H18V19H6V5Z"></path></svg>
+                    プロンプト配布を見る
+                </a>
+                <div class="flex items-center text-gray-300">
+                    <svg class="w-5 h-5 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.5,2C14.05,2 14.5,2.45 14.5,3C14.5,3.55 14.05,4 13.5,4C11.56,4 10,5.56 10,7.5C10,9.44 11.56,11 13.5,11C15.44,11 17,9.44 17,7.5V7C17,6.45 17.45,6 18,6C18.55,6 19,6.45 19,7V7.5C19,10.54 16.54,13 13.5,13C10.46,13 8,10.54 8,7.5C8,4.46 10.46,2 13.5,2M13.5,14C12.95,14 12.5,14.45 12.5,15C12.5,15.55 12.95,16 13.5,16C14.69,16 15.68,16.65 16.24,17.5H10.76C11.32,16.65 12.31,16 13.5,16C14.05,16 14.5,15.55 14.5,15C14.5,14.45 14.05,14 13.5,14M7.5,16C6.7,16 6,16.7 6,17.5C6,18.3 6.7,19 7.5,19C8.3,19 9,18.3 9,17.5C9,16.7 8.3,16 7.5,16M19.5,16C18.7,16 18,16.7 18,17.5C18,18.3 18.7,19 19.5,19C20.3,19 21,18.3 21,17.5C21,16.7 20.3,16 19.5,16M13.5,18C13.23,18 13,18.23 13,18.5C13,18.77 13.23,19 13.5,19C13.77,19 14,18.77 14,18.5C14,18.23 13.77,18 13.5,18M10.5,20C9.7,20 9,20.7 9,21.5C9,22.3 9.7,23 10.5,23C11.3,23 12,22.3 12,21.5C12,20.7 11.3,20 10.5,20M16.5,20C15.7,20 15,20.7 15,21.5C15,22.3 15.7,23 16.5,23C17.3,23 18,22.3 18,21.5C18,20.7 17.3,20 16.5,20Z"></path></svg>
+                    <span>限定公開中</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ranking Section -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-8 flex items-center">
+                <svg class="w-8 h-8 text-yellow-500 mr-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5,16L3,5L8.5,10L12,4L15.5,10L21,5L19,16H5M19,19C19,19.55 18.55,20 18,20H6C5.45,20 5,19.55 5,19V18H19V19Z"></path></svg>
+                人気の偉人ランキング
+            </h2>
+            
+            <div class="relative">
+                <button class="scroll-arrow left" onclick="scrollSlider('left')">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path></svg>
+                </button>
+                <button class="scroll-arrow right" onclick="scrollSlider('right')">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path></svg>
+                </button>
+                
+                <div class="ranking-slider flex space-x-6 pb-4" id="rankingSlider">
+                    <!-- Rank 1: 源義経 -->
+                    <div class="ranking-card bg-gray-800 rounded-lg overflow-hidden relative">
+                        <div class="absolute top-4 left-4 z-10">
+                            <div class="ranking-number">1</div>
+                        </div>
+                        <div class="h-80 bg-cover bg-center" style="background-image: url('https://placehold.co/280x320/1f2937/9ca3af?text=源義経');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        </div>
+                        <div class="p-6 pt-4">
+                            <h3 class="text-2xl font-bold mb-2">源義経のVlog</h3>
+                            <p class="text-gray-400 mb-3">単体で20万回再生の大ヒット！</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M10,16.5L16,12L10,7.5V16.5Z"></path></svg>
+                                <span>20万回再生</span>
+                                <svg class="w-4 h-4 ml-4 mr-2 text-red-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                                <span>5,952いいね</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rank 2: 織田信長 -->
+                    <div class="ranking-card bg-gray-800 rounded-lg overflow-hidden relative">
+                        <div class="absolute top-4 left-4 z-10">
+                            <div class="ranking-number">2</div>
+                        </div>
+                        <div class="h-80 bg-cover bg-center" style="background-image: url('https://placehold.co/280x320/1f2937/9ca3af?text=織田信長');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        </div>
+                        <div class="p-6 pt-4">
+                            <h3 class="text-2xl font-bold mb-2">織田信長のVlog</h3>
+                            <p class="text-gray-400 mb-3">天下統一への野望を現代風に表現</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M10,16.5L16,12L10,7.5V16.5Z"></path></svg>
+                                <span>15万回再生</span>
+                                <svg class="w-4 h-4 ml-4 mr-2 text-red-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                                <span>4,233いいね</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rank 3: 坂本龍馬 -->
+                    <div class="ranking-card bg-gray-800 rounded-lg overflow-hidden relative">
+                        <div class="absolute top-4 left-4 z-10">
+                            <div class="ranking-number">3</div>
+                        </div>
+                        <div class="h-80 bg-cover bg-center" style="background-image: url('https://placehold.co/280x320/1f2937/9ca3af?text=坂本龍馬');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        </div>
+                        <div class="p-6 pt-4">
+                            <h3 class="text-2xl font-bold mb-2">坂本龍馬のVlog</h3>
+                            <p class="text-gray-400 mb-3">幕末の革命家がiPhoneで情報発信</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M10,16.5L16,12L10,7.5V16.5Z"></path></svg>
+                                <span>12万回再生</span>
+                                <svg class="w-4 h-4 ml-4 mr-2 text-red-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                                <span>3,891いいね</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rank 4: 徳川家康 -->
+                    <div class="ranking-card bg-gray-800 rounded-lg overflow-hidden relative">
+                        <div class="absolute top-4 left-4 z-10">
+                            <div class="ranking-number">4</div>
+                        </div>
+                        <div class="h-80 bg-cover bg-center" style="background-image: url('https://placehold.co/280x320/1f2937/9ca3af?text=徳川家康');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        </div>
+                        <div class="p-6 pt-4">
+                            <h3 class="text-2xl font-bold mb-2">徳川家康のVlog</h3>
+                            <p class="text-gray-400 mb-3">天下泰平をiPhoneで管理する将軍</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M10,16.5L16,12L10,7.5V16.5Z"></path></svg>
+                                <span>8万回再生</span>
+                                <svg class="w-4 h-4 ml-4 mr-2 text-red-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                                <span>2,654いいね</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rank 5: 清少納言 -->
+                    <div class="ranking-card bg-gray-800 rounded-lg overflow-hidden relative">
+                        <div class="absolute top-4 left-4 z-10">
+                            <div class="ranking-number">5</div>
+                        </div>
+                        <div class="h-80 bg-cover bg-center" style="background-image: url('https://placehold.co/280x320/1f2937/9ca3af?text=清少納言');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        </div>
+                        <div class="p-6 pt-4">
+                            <h3 class="text-2xl font-bold mb-2">清少納言のVlog</h3>
+                            <p class="text-gray-400 mb-3">平安の美意識をモーニングルーティンで</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M10,16.5L16,12L10,7.5V16.5Z"></path></svg>
+                                <span>6万回再生</span>
+                                <svg class="w-4 h-4 ml-4 mr-2 text-red-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                                <span>1,987いいね</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rank 6: 豊臣秀吉 -->
+                    <div class="ranking-card bg-gray-800 rounded-lg overflow-hidden relative">
+                        <div class="absolute top-4 left-4 z-10">
+                            <div class="ranking-number">6</div>
+                        </div>
+                        <div class="h-80 bg-cover bg-center" style="background-image: url('https://placehold.co/280x320/1f2937/9ca3af?text=豊臣秀吉');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        </div>
+                        <div class="p-6 pt-4">
+                            <h3 class="text-2xl font-bold mb-2">豊臣秀吉のVlog</h3>
+                            <p class="text-gray-400 mb-3">農民から天下人へのサクセスストーリー</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M10,16.5L16,12L10,7.5V16.5Z"></path></svg>
+                                <span>5万回再生</span>
+                                <svg class="w-4 h-4 ml-4 mr-2 text-red-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                                <span>1,654いいね</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Video Creation Section -->
+    <section class="py-20 bg-black">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-6">
+                    <span class="gold-text">AIで偉人を</span><br>
+                    <span class="text-white">現代に蘇らせる技術</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    特別なスキルも高価な機材も顔出しも一切不要。使ったのは、まだほとんどの日本人がその本当の価値に気づいていない、"あるAIツール"と、私が独自に編み出した"あるプロンプトの法則"だけです。
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-3xl font-bold mb-6">🎯 このプロンプトの威力</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                             <svg class="w-6 h-6 text-yellow-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.36,4.64C14.71,4.29 15.29,4.29 15.64,4.64L16.05,5.05C16.33,5.33 16.5,5.7 16.5,6.1C16.5,6.5 16.33,6.87 16.05,7.15L15.64,7.56C15.29,7.91 14.71,7.91 14.36,7.56L13.95,7.15C13.67,6.87 13.5,6.5 13.5,6.1C13.5,5.7 13.67,5.33 13.95,5.05L14.36,4.64M3.5,21C3.5,21.28 3.72,21.5 4,21.5C4.28,21.5 4.5,21.28 4.5,21V19H6.5C6.78,19 7,18.78 7,18.5C7,18.22 6.78,18 6.5,18H4.5V16C4.5,15.72 4.28,15.5 4,15.5C3.72,15.5 3.5,15.72 3.5,16V18H2C1.72,18 1.5,18.22 1.5,18.5C1.5,18.78 1.72,19 2,19H3.5V21M19.5,12C19.5,12.28 19.72,12.5 20,12.5C20.28,12.5 20.5,12.28 20.5,12V10H22.5C22.78,10 23,9.78 23,9.5C23,9.22 22.78,9 22.5,9H20.5V7C20.5,6.72 20.28,6.5 20,6.5C19.72,6.5 19.5,6.72 19.5,7V9H18C17.72,9 17.5,9.22 17.5,9.5C17.5,9.78 17.72,10 18,10H19.5V12M12,1.5C12.28,1.5 12.5,1.72 12.5,2V4H10.5C10.22,4 10,4.22 10,4.5C10,4.78 10.22,5 10.5,5H12.5V7C12.5,7.28 12.72,7.5 13,7.5C13.28,7.5 13.5,7.28 13.5,7V5H15.5C15.78,5 16,4.78 16,4.5C16,4.22 15.78,4 15.5,4H13.5V2C13.5,1.72 13.28,1.5 13,1.5C12.72,1.5 12.5,1.72 12.5,2H11.5C11.5,1.72 11.28,1.5 11,1.5C10.72,1.5 10.5,1.72 10.5,2H9.5C9.5,1.72 9.28,1.5 9,1.5C8.72,1.5 8.5,1.72 8.5,2V4H6.5C6.22,4 6,4.22 6,4.5C6,4.78 6.22,5 6.5,5H8.5V7C8.5,7.28 8.72,7.5 9,7.5C9.28,7.5 9.5,7.28 9.5,7V5H11.5C11.78,5 12,4.78 12,4.5C12,4.22 11.78,4 11.5,4H9.5V2C9.5,1.72 9.28,1.5 9,1.5C8.72,1.5 8.5,1.72 8.5,2H7.5C7.5,1.72 7.28,1.5 7,1.5C6.72,1.5 6.5,1.72 6.5,2V4H4.5C4.22,4 4,4.22 4,4.5C4,4.78 4.22,5 4.5,5H6.5V7C6.5,7.28 6.72,7.5 7,7.5C7.28,7.5 7.5,7.28 7.5,7V5H9.5C9.78,5 10,4.78 10,4.5C10,4.22 9.78,4 9.5,4H7.5V2C7.5,1.72 7.28,1.5 7,1.5C6.72,1.5 6.5,1.72 6.5,2H5.5C5.5,1.72 5.28,1.5 5,1.5C4.72,1.5 4.5,1.72 4.5,2V4H2.5C2.22,4 2,4.22 2,4.5C2,4.78 2.22,5 2.5,5H4.5V7C4.5,7.28 4.72,7.5 5,7.5C5.28,7.5 5.5,7.28 5.5,7V5H7.5C7.78,5 8,4.78 8,4.5C8,4.22 7.78,4 7.5,4H5.5V2C5.5,1.72 5.28,1.5 5,1.5C4.72,1.5 4.5,1.72 4.5,2H3.5C3.5,1.72 3.28,1.5 3,1.5C2.72,1.5 2.5,1.72 2.5,2V4H0.5C0.22,4 0,4.22 0,4.5C0,4.78 0.22,5 0.5,5H2.5V7C2.5,7.28 2.72,7.5 3,7.5C3.28,7.5 3.5,7.28 3.5,7V5H5.5C5.78,5 6,4.78 6,4.5C6,4.22 5.78,4 5.5,4H3.5V2C3.5,1.72 3.28,1.5 3,1.5S2.5,1.72 2.5,2H1.5C1.5,1.72 1.28,1.5 1,1.5S0.5,1.72 0.5,2V4H-1.5C-1.78,4 -2,4.22 -2,4.5C-2,4.78 -1.78,5 -1.5,5H0.5V7C0.5,7.28 0.72,7.5 1,7.5S1.5,7.28 1.5,7V5H3.5C3.78,5 4,4.78 4,4.5C4,4.22 3.78,4 3.5,4H1.5V2C1.5,1.72 1.28,1.5 1,1.5S0.5,1.72 0.5,2H-0.5C-0.5,1.72 -0.78,1.5 -1,1.5S-1.5,1.72 -1.5,2V4H-3.5C-3.78,4 -4,4.22 -4,4.5C-4,4.78 -3.78,5 -3.5,5H-1.5V7C-1.5,7.28 -1.28,7.5 -1,7.5S-0.5,7.28 -0.5,7V5H1.5C1.78,5 2,4.78 2,4.5C2,4.22 1.78,4 1.5,4H-0.5V2C-0.5,1.72 -0.78,1.5 -1,1.5S-1.5,1.72 -1.5,2H-2.5C-2.5,1.72 -2.78,1.5 -3,1.5S-3.5,1.72 -3.5,2V4H-5.5C-5.78,4 -6,4.22 -6,4.5C-6,4.78 -5.78,5 -5.5,5H-3.5V7C-3.5,7.28 -3.28,7.5 -3,7.5S-2.5,7.28 -2.5,7V5H-0.5C-0.22,5 0,4.78 0,4.5C0,4.22 -0.22,4 -0.5,4H-2.5V2C-2.5,1.72 -2.78,1.5 -3,1.5S-3.5,1.72 -3.5,2H-4.5C-4.5,1.72 -4.78,1.5 -5,1.5S-5.5,1.72 -5.5,2V4H-7.5C-7.78,4 -8,4.22 -8,4.5C-8,4.78 -7.78,5 -7.5,5H-5.5V7C-5.5,7.28 -5.28,7.5 -5,7.5S-4.5,7.28 -4.5,7V5H-2.5C-2.22,5 -2,4.78 -2,4.5C-2,4.22 -2.22,4 -2.5,4H-4.5V2C-4.5,1.72 -4.78,1.5 -5,1.5S-5.5,1.72 -5.5,2H-6.5C-6.5,1.72 -6.78,1.5 -7,1.5S-7.5,1.72 -7.5,2V4H-9.5C-9.78,4 -10,4.22 -10,4.5C-10,4.78 -9.78,5 -9.5,5H-7.5V7C-7.5,7.28 -7.28,7.5 -7,7.5S-6.5,7.28 -6.5,7V5H-4.5C-4.22,5 -4,4.78 -4,4.5C-4,4.22 -4.22,4 -4.5,4H-6.5V2C-6.5,1.72 -6.78,1.5 -7,1.5S-7.5,1.72 -7.5,2H-8.5C-8.5,1.72 -8.78,1.5 -9,1.5S-9.5,1.72 -9.5,2V4H-11.5C-11.78,4 -12,4.22 -12,4.5C-12,4.78 -11.78,5 -11.5,5H-9.5V7C-9.5,7.28 -9.28,7.5 -9,7.5S-8.5,7.28 -8.5,7V5H-6.5C-6.22,5 -6,4.78 -6,4.5C-6,4.22 -6.22,4 -6.5,4H-8.5V2C-8.5,1.72 -8.78,1.5 -9,1.5S-9.5,1.72 -9.5,2H-10.5C-10.5,1.72 -10.78,1.5 -11,1.5S-11.5,1.72 -11.5,2V4H-13.5C-13.78,4 -14,4.22 -14,4.5C-14,4.78 -13.78,5 -13.5,5H-11.5V7C-11.5,7.28 -11.28,7.5 -11,7.5S-10.5,7.28 -10.5,7V5H-8.5C-8.22,5 -8,4.78 -8,4.5C-8,4.22 -8.22,4 -8.5,4H-10.5V2C-10.5,1.72 -10.78,1.5 -11,1.5S-11.5,1.72 -11.5,2H-12.5C-12.5,1.72 -12.78,1.5 -13,1.5S-13.5,1.72 -13.5,2V4H-15.5C-15.78,4 -16,4.22 -16,4.5C-16,4.78 -15.78,5 -15.5,5H-13.5V7C-13.5,7.28 -13.28,7.5 -13,7.5S-12.5,7.28 -12.5,7V5H-10.5C-10.22,5 -10,4.78 -10,4.5C-10,4.22 -10.22,4 -10.5,4H-12.5V2C-12.5,1.72 -12.78,1.5 -13,1.5Z"></path></svg>
+                            <div>
+                                <strong>毎回同じキャラクターを生成</strong><br>
+                                <span class="text-gray-400">寸分違わず同じ「清少納言」を何度でも</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-yellow-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,12A1.5,1.5 0 0,1 13,10.5A1.5,1.5 0 0,1 14.5,9A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 14.5,12M11.5,12A1.5,1.5 0 0,1 10,10.5A1.5,1.5 0 0,1 11.5,9A1.5,1.5 0 0,1 13,10.5A1.5,1.5 0 0,1 11.5,12M6,13A2,2 0 0,0 4,15A2,2 0 0,0 6,17A2,2 0 0,0 8,15A2,2 0 0,0 6,13M12,3C17.5,3 22,6.58 22,11C22,15.42 17.5,19 12,19C6.5,19 2,15.42 2,11C2,6.58 6.5,3 12,3Z"></path></svg>
+                            <div>
+                                <strong>感情だけを自在に変更</strong><br>
+                                <span class="text-gray-400">「次は少し悲しげな表情で」と指定可能</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                           <svg class="w-6 h-6 text-yellow-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18,9H16V7H18M18,13H16V11H18M18,17H16V15H18M8,9H6V7H8M8,13H6V11H8M8,17H6V15H8M18,21H6C4.89,21 4,20.11 4,19V5C4,3.89 4.89,3 6,3H18C19.11,3 20,3.89 20,5V19C20,20.11 19.11,21 18,21Z"></path></svg>
+                            <div>
+                                <strong>ストーリーの継続性</strong><br>
+                                <span class="text-gray-400">夜のシーンから朝のシーンへ自然な流れ</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-yellow-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16,13C15.71,13 15.42,13.12 15.21,13.33C14.46,14.17 13.3,14.5 12,14.5C10.7,14.5 9.54,14.17 8.79,13.33C8.58,13.12 8.29,13 8,13C7.45,13 7,13.45 7,14C7,14.23 7.09,14.45 7.24,14.62C8.3,15.86 9.97,16.5 12,16.5C14.03,16.5 15.7,15.86 16.76,14.62C16.91,14.45 17,14.23 17,14C17,13.45 16.55,13 16,13M12,12.5C13.38,12.5 14.5,11.38 14.5,10C14.5,8.62 13.38,7.5 12,7.5C10.62,7.5 9.5,8.62 9.5,10C9.5,11.38 10.62,12.5 12,12.5M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z"></path></svg>
+                            <div>
+                                <strong>キャラクター変更の自由度</strong><br>
+                                <span class="text-gray-400">清少納言から紫式部へワンクリック変更</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-900 p-8 rounded-lg">
+                    <h4 class="text-2xl font-bold mb-4 text-center">📈 驚異の実績</h4>
+                    <div class="grid grid-cols-2 gap-6 text-center">
+                        <div>
+                            <div class="text-4xl font-bold text-red-500 mb-2">50万</div>
+                            <div class="text-gray-400">累計再生回数</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-bold text-yellow-500 mb-2">10日</div>
+                            <div class="text-gray-400">達成期間</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-bold text-green-500 mb-2">20万</div>
+                            <div class="text-gray-400">単体動画最高再生</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-bold text-blue-500 mb-2">726</div>
+                            <div class="text-gray-400">TikTokフォロワー</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="https://note.com/cordia/n/nd5d9a1c20bbb" class="inline-block netflix-red text-white px-12 py-4 rounded-full font-bold text-xl hover:opacity-90 transition-opacity">
+                    <svg class="w-6 h-6 mr-3 inline-block" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8,3H16V5H8V3M16,21H8V19H16V21M18,21C19.1,21 20,20.1 20,19V5C20,3.9 19.1,3 18,3H17V1H7V3H6C4.9,3 4,3.9 4,5V19C4,20.1 4.9,21 6,21H7V23H17V21H18M6,5H18V19H6V5Z"></path></svg>
+                    プロンプトの詳細を見る
+                </a>
+                <p class="text-gray-500 mt-4">※限定公開のため、削除される可能性があります</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-8">📱 各プラットフォームで配信中</h2>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <a href="https://www.youtube.com/@ijinvlogs" class="bg-red-600 hover:bg-red-700 p-6 rounded-lg transition-colors">
+                    <svg class="w-10 h-10 mb-4 mx-auto" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10,15L15.19,12L10,9V15M21.56,7.17C21.69,7.64 21.78,8.27 21.84,9.07C21.91,9.87 21.94,10.56 21.94,11.16L22,12C22,14.19 21.84,15.8 21.56,16.83C21.31,17.73 20.73,18.31 19.83,18.56C19.36,18.69 18.73,18.78 17.93,18.84C17.13,18.91 16.44,18.94 15.84,18.94L15,19C12.81,19 11.2,18.84 10.17,18.56C9.27,18.31 8.69,17.73 8.44,16.83C8.31,16.36 8.22,15.73 8.16,14.93C8.09,14.13 8.06,13.44 8.06,12.84L8,12C8,9.81 8.16,8.2 8.44,7.17C8.69,6.27 9.27,5.69 10.17,5.44C10.64,5.31 11.27,5.22 12.07,5.16C12.87,5.09 13.56,5.06 14.16,5.06L15,5C17.19,5 18.8,5.16 19.83,5.44C20.73,5.69 21.31,6.27 21.56,7.17Z"></path></svg>
+                    <h3 class="font-bold">YouTube</h3>
+                    <p class="text-sm mt-2">@ijinvlogs</p>
+                </a>
+                
+                <a href="https://www.tiktok.com/@ijinvlogs" class="bg-gray-800 hover:bg-gray-700 p-6 rounded-lg transition-colors">
+                    <svg class="w-10 h-10 mb-4 mx-auto" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.1,10.2C16.1,10.2 16.2,9.2 17.2,9.2C18.2,9.2 18.2,10.2 18.2,10.2L18.3,12.2C18.3,12.2 18.2,13.2 17.2,13.2C16.2,13.2 16.1,12.2 16.1,12.2V10.2M12.5,10.3C12.5,10.3 12.5,8.6 14.3,8.2C14.3,8.2 15.1,8 15.1,7.3C15.1,6.6 14.3,6.5 14.3,6.5C14.3,6.5 12.9,6.5 12.3,7.6C12.3,7.6 11.8,8.5 11.8,9.5L11.9,14.7C11.9,14.7 11.8,15.7 10.8,15.7C9.8,15.7 9.7,14.7 9.7,14.7V10.3C9.7,10.3 9.7,8.6 11.5,8.2C11.5,8.2 12.3,8 12.3,7.3C12.3,6.6 11.5,6.5 11.5,6.5C11.5,6.5 10.1,6.5 9.5,7.6C9.5,7.6 9,8.5 9,9.5L9.1,14.9C9.1,14.9 8.8,17.5 6,17.5C6,17.5 5.5,17.5 5.5,16.8C5.5,16.1 6.3,16 6.3,16C6.3,16 7.5,16.1 7.5,14.9V9.4C7.5,9.4 7.6,6.8 10.4,6.8C10.4,6.8 10.9,6.8 10.9,7.5C10.9,8.2 10.1,8.3 10.1,8.3C10.1,8.3 8.9,8.2 8.9,9.4V10.1H11.3V8.8C11.3,8.8 11.2,6.1 14,6.1C14,6.1 14.5,6.1 14.5,6.8C14.5,7.5 13.7,7.6 13.7,7.6C13.7,7.6 12.5,7.5 12.5,8.7V14.8C12.5,14.8 12.6,17.5 15.4,17.5C15.4,17.5 15.9,17.5 15.9,16.8C15.9,16.1 15.1,16 15.1,16C15.1,16 13.9,16.1 13.9,14.8V10.2C13.9,10.2 13.8,9.2 14.8,9.2C15.8,9.2 15.9,10.2 15.9,10.2L16.1,14.8C16.1,14.8 16.2,17.5 18.9,17.5C18.9,17.5 19.4,17.5 19.4,16.8C19.4,16.1 18.6,16 18.6,16C18.6,16 17.4,16.1 17.4,14.8V10.2L16.1,10.2Z"></path></svg>
+                    <h3 class="font-bold">TikTok</h3>
+                    <p class="text-sm mt-2">726フォロワー</p>
+                    <p class="text-sm">9,694いいね</p>
+                </a>
+                
+                <a href="https://x.com/AiCordia83729" class="bg-blue-500 hover:bg-blue-600 p-6 rounded-lg transition-colors">
+                    <svg class="w-10 h-10 mb-4 mx-auto" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                    <h3 class="font-bold">X (Twitter)</h3>
+                    <p class="text-sm mt-2">@AiCordia83729</p>
+                </a>
+                
+                <a href="https://note.com/cordia/n/nd5d9a1c20bbb" class="bg-green-600 hover:bg-green-700 p-6 rounded-lg transition-colors">
+                    <svg class="w-10 h-10 mb-4 mx-auto" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15,3H18V5H15V3M15,7H18V9H15V7M15,11H18V13H15V11M5,21H19C20.11,21 21,20.11 21,19V5C21,3.89 20.11,3 19,3H5C3.89,3 3,3.89 3,5V19C3,20.11 3.89,21 5,21M5,5H13V19H5V5Z"></path></svg>
+                    <h3 class="font-bold">Note</h3>
+                    <p class="text-sm mt-2">プロンプト配布</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold gold-text mb-4">偉人vlogs</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    AIと独自プロンプトで歴史の偉人たちを現代に蘇らせる革新的なコンテンツ制作
+                </p>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <p class="text-gray-500 text-sm">
+                    © 2024 偉人vlogs - created by <span class="text-yellow-500 font-semibold">cordia</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function scrollSlider(direction) {
+            const slider = document.getElementById('rankingSlider');
+            const scrollAmount = 300;
+            
+            if (direction === 'left') {
+                slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+
+        // Auto-scroll functionality
+        let autoScrollInterval;
+        
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                const slider = document.getElementById('rankingSlider');
+                const maxScroll = slider.scrollWidth - slider.clientWidth;
+                
+                if (slider.scrollLeft >= maxScroll) {
+                    slider.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    slider.scrollBy({ left: 300, behavior: 'smooth' });
+                }
+            }, 5000);
+        }
+        
+        function stopAutoScroll() {
+            clearInterval(autoScrollInterval);
+        }
+        
+        // Start auto-scroll when page loads
+        document.addEventListener('DOMContentLoaded', startAutoScroll);
+        
+        // Stop auto-scroll when user interacts with slider
+        document.getElementById('rankingSlider').addEventListener('mouseenter', stopAutoScroll);
+        document.getElementById('rankingSlider').addEventListener('mouseleave', startAutoScroll);
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

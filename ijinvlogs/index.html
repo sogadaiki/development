@@ -135,9 +135,149 @@
         .scroll-arrow.right {
             right: 10px;
         }
+
+        .theme-btn, .anim-btn {
+            padding: 10px;
+            border: 1px solid #4A5568;
+            border-radius: 5px;
+            color: white;
+            background-color: #2D3748;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .theme-btn:hover, .anim-btn:hover {
+            background-color: #4A5568;
+            border-color: #718096;
+        }
+        .theme-btn.active, .anim-btn.active {
+            background-color: #E53E3E;
+            border-color: #E53E3E;
+            font-weight: bold;
+        }
     </style>
+    <style id="gemini-theme-styles">
+    :root {
+        --bg-color: #000000;
+        --text-color: #FFFFFF;
+        --primary-color: #E50914;
+        --secondary-color: #FFD700;
+        --accent-color: #FFA500;
+        --card-bg: #1f2937;
+        --nav-bg: rgba(0, 0, 0, 0.9);
+        --text-muted: #9ca3af;
+        --hero-grad-1: #1a1a1a;
+        --hero-grad-2: #2d1810;
+    }
+    .theme-cyber {
+        --bg-color: #0d0221;
+        --text-color: #f0f0f0;
+        --primary-color: #00f0ff;
+        --secondary-color: #ff00ff;
+        --accent-color: #7d00ff;
+        --card-bg: #1a0933;
+        --nav-bg: rgba(13, 2, 33, 0.9);
+        --text-muted: #a0a0a0;
+        --hero-grad-1: #0d0221;
+        --hero-grad-2: #7d00ff;
+    }
+    .theme-nature {
+        --bg-color: #1a2e28;
+        --text-color: #e8e8e8;
+        --primary-color: #2f855a;
+        --secondary-color: #d69e2e;
+        --accent-color: #b7791f;
+        --card-bg: #253f38;
+        --nav-bg: rgba(26, 46, 40, 0.9);
+        --text-muted: #b8c1bb;
+        --hero-grad-1: #1a2e28;
+        --hero-grad-2: #b7791f;
+    }
+    .theme-mono {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --primary-color: #ffffff;
+        --secondary-color: #b0b0b0;
+        --accent-color: #8a8a8a;
+        --card-bg: #2b2b2b;
+        --nav-bg: rgba(26, 26, 26, 0.9);
+        --text-muted: #a0a0a0;
+        --hero-grad-1: #1a1a1a;
+        --hero-grad-2: #8a8a8a;
+    }
+
+    body { background-color: var(--bg-color) !important; color: var(--text-color) !important; }
+    
+    nav { background-color: var(--nav-bg) !important; }
+    .text-red-500 { color: var(--primary-color) !important; }
+    .netflix-red { background: linear-gradient(135deg, var(--primary-color), var(--accent-color)) !important; }
+    .gold-text {
+        background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .ranking-card { background-color: var(--card-bg) !important; }
+    .ranking-number {
+        -webkit-text-stroke: 3px var(--secondary-color);
+        text-shadow: 0 0 20px color-mix(in srgb, var(--secondary-color) 50%, transparent);
+    }
+    section.bg-gray-900 { background-color: color-mix(in srgb, var(--bg-color) 80%, black) !important; }
+    section.bg-black { background-color: var(--bg-color) !important; }
+    .text-gray-300 { color: color-mix(in srgb, var(--text-muted), #fff 20%) !important; }
+    .text-gray-400 { color: var(--text-muted) !important; }
+    .text-gray-500 { color: color-mix(in srgb, var(--text-muted), #000 20%) !important; }
+    .text-yellow-500 { color: var(--secondary-color) !important; }
+    
+    .hero-bg {
+        background: linear-gradient(45deg, var(--hero-grad-1), var(--hero-grad-2), var(--hero-grad-1));
+        background-size: 400% 400%;
+    }
+    .floating-elements::before,
+    .floating-elements::after {
+        background: linear-gradient(45deg, color-mix(in srgb, var(--secondary-color) 10%, transparent), color-mix(in srgb, var(--accent-color) 10%, transparent));
+    }
+
+    /* Particles Animation */
+    .particles-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; display: none; }
+    .particle { position: absolute; background-color: var(--secondary-color); border-radius: 50%; opacity: 0; animation: rise 10s infinite linear; }
+    @keyframes rise {
+        0% { transform: translateY(100vh) scale(0); opacity: 1; }
+        100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+</style>
 </head>
 <body class="bg-black text-white">
+    <!-- Settings Panel -->
+    <div id="settings-panel" class="fixed top-0 right-0 h-full w-64 bg-gray-900 bg-opacity-95 shadow-lg p-6 transform translate-x-full transition-transform duration-300 ease-in-out z-50">
+        <h3 class="text-xl font-bold mb-4">デザイン設定</h3>
+        
+        <!-- Theme Selector -->
+        <div class="mb-6">
+            <h4 class="font-semibold mb-2">カラーテーマ</h4>
+            <div class="grid grid-cols-2 gap-2">
+                <button id="theme-default" class="theme-btn active">デフォルト</button>
+                <button id="theme-cyber" class="theme-btn">サイバー</button>
+                <button id="theme-nature" class="theme-btn">自然</button>
+                <button id="theme-mono" class="theme-btn">モノクロ</button>
+            </div>
+        </div>
+
+        <!-- Animation Selector -->
+        <div>
+            <h4 class="font-semibold mb-2">背景効果</h4>
+            <div class="grid grid-cols-2 gap-2">
+                <button id="anim-gradient" class="anim-btn active">グラデーション</button>
+                <button id="anim-particles" class="anim-btn">粒子</button>
+                <button id="anim-none" class="anim-btn">なし</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Toggle Button -->
+    <button id="settings-toggle" class="fixed bottom-5 right-5 w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg z-50">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+    </button>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-90 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -165,6 +305,7 @@
 
     <!-- Hero Section -->
     <section class="relative h-screen flex items-center justify-center hero-bg overflow-hidden">
+        <div id="particles-container" class="particles-bg"></div>
         <div class="floating-elements"></div>
         
         <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
@@ -518,6 +659,96 @@
                     behavior: 'smooth'
                 });
             });
+        });
+
+        // Settings Panel Logic
+        const settingsPanel = document.getElementById('settings-panel');
+        const settingsToggle = document.getElementById('settings-toggle');
+
+        settingsToggle.addEventListener('click', () => {
+            settingsPanel.classList.toggle('translate-x-full');
+        });
+
+        // --- Theme & Animation Logic ---
+        const body = document.body;
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        const animButtons = document.querySelectorAll('.anim-btn');
+        const particlesContainer = document.getElementById('particles-container');
+        const floatingElements = document.querySelector('.floating-elements');
+
+        // 1. Theme Switching
+        const applyTheme = (theme) => {
+            body.classList.remove('theme-cyber', 'theme-nature', 'theme-mono');
+            if (theme !== 'default') {
+                body.classList.add(`theme-${theme}`);
+            }
+            localStorage.setItem('selectedTheme', theme);
+            updateActiveButton(themeButtons, `theme-${theme}`);
+        };
+
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.id.replace('theme-', '');
+                applyTheme(theme);
+            });
+        });
+
+        // 2. Animation Switching
+        const applyAnimation = (animation) => {
+            if (animation === 'particles') {
+                floatingElements.style.display = 'none';
+                particlesContainer.style.display = 'block';
+                if (particlesContainer.children.length === 0) createParticles(50);
+            } else if (animation === 'none') {
+                floatingElements.style.display = 'none';
+                particlesContainer.style.display = 'none';
+            } else { // gradient
+                floatingElements.style.display = 'block';
+                particlesContainer.style.display = 'none';
+            }
+            localStorage.setItem('selectedAnimation', animation);
+            updateActiveButton(animButtons, `anim-${animation}`);
+        };
+
+        animButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const anim = button.id.replace('anim-', '');
+                applyAnimation(anim);
+            });
+        });
+
+        // 3. Particle Creation
+        const createParticles = (count) => {
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 7 + 3;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                particlesContainer.appendChild(particle);
+            }
+        };
+
+        // 4. Helper & Initialization
+        const updateActiveButton = (buttons, activeId) => {
+            buttons.forEach(btn => {
+                if (btn.id === activeId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        };
+
+        // Load saved settings on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'default';
+            const savedAnimation = localStorage.getItem('selectedAnimation') || 'gradient';
+            applyTheme(savedTheme);
+            applyAnimation(savedAnimation);
         });
     </script>
 </body>

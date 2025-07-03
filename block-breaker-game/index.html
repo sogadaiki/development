@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Block Breaker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Block Breaker</h1>
+<canvas id="gameCanvas" width="480" height="320"></canvas>
+<div id="ui-container">
+    <div id="score">Score: 0</div>
+    <div id="lives">❤️❤️❤️</div>
+    <div id="speed-controls">
+        <button id="slow-down">Slow Down</button>
+        <button id="speed-up">Speed Up</button>
+    </div>
+</div>
+<audio id="bgm" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
+<audio id="hit-sound" src="https://cdn.jsdelivr.net/gh/kristopolous/music/sounds/player/blip.mp3"></audio>
+<audio id="break-sound" src="https://cdn.jsdelivr.net/gh/kristopolous/music/sounds/player/coin.mp3"></audio> <!-- Using a coin sound for break -->
+<audio id="lose-sound" src="https://cdn.jsdelivr.net/gh/kristopolous/music/sounds/player/explosion.mp3"></audio> <!-- Using an explosion sound for lose -->
+<div id="game-over" class="message-box" style="display: none;">
+    <h2>GAME OVER</h2>
+    <p id="final-score-over"></p>
+    <p id="high-score-over"></p>
+    <button onclick="document.location.reload()">Play Again</button>
+</div>
+<div id="game-win" class="message-box" style="display: none;">
+    <h2>YOU WIN!</h2>
+    <p id="final-score-win"></p>
+    <p id="high-score-win"></p>
+    <button onclick="document.location.reload()">Play Again</button>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

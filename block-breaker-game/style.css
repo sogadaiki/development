@@ -1,0 +1,63 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+canvas {
+    background: #111;
+    display: block;
+    border: 1px solid #ccc;
+}
+
+#ui-container {
+    width: 480px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    color: #333;
+}
+
+#score, #lives {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#speed-controls button {
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.message-box {
+    display: none; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 100;
+}
+
+.message-box h2 {
+    margin-bottom: 10px;
+}
+
+.message-box button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}

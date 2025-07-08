@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生成AIで事業を加速する | 株式会社さだめ</title>
+    <meta name="description" content="生成AIを活用した事業支援・顧問サービスで、アイデアから実装まで最速4週間納品。SNS運用、LP制作、LINE施策まで一気通貫でサポートします。">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Meta Tags -->
+    <meta property="og:title" content="生成AIで事業を加速する | 株式会社さだめ">
+    <meta property="og:description" content="生成AIを活用した事業支援・顧問サービスで、アイデアから実装まで最速4週間納品">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sadame.com">
+    <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <div class="header__logo">
+                    <h1>株式会社さだめ</h1>
+                </div>
+                <nav class="header__nav" id="headerNav">
+                    <ul class="nav-list">
+                        <li><a href="#services">サービス</a></li>
+                        <li><a href="#results">実績</a></li>
+                        <li><a href="#cases">事例</a></li>
+                        <li><a href="#about">会社概要</a></li>
+                        <li><a href="#contact" class="btn btn--outline btn--sm">お問い合わせ</a></li>
+                    </ul>
+                </nav>
+                <button class="header__toggle" id="headerToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero section-snap" id="hero" data-section="hero">
+        <div class="hero__video-bg">
+            <video autoplay muted loop playsinline class="hero__video" id="heroVideo">
+                <source src="assets/hero-video.mp4" type="video/mp4">
+                <!-- フォールバック用グラデーション背景 -->
+            </video>
+            <div class="hero__video-fallback" id="videoFallback"></div>
+            <div class="hero__video-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero__inner">
+                <div class="hero__content">
+                    <h1 class="hero__title">
+                        <span class="hero__title-line">生成AI × ビジネス支援で</span>
+                        <span class="hero__title-line hero__title-line--highlight">実務を加速</span>
+                    </h1>
+                    <p class="hero__subtitle">
+                        アイデアから実装まで、最速4週間納品。<br>
+                        TikTok運用からLP制作まで一気通貫サポート。
+                    </p>
+                    <div class="hero__cta">
+                        <a href="#contact" class="btn btn--primary btn--lg">無料相談を予約する</a>
+                        <a href="#services" class="btn btn--outline btn--lg">サービス詳細</a>
+                    </div>
+                    <div class="hero__metrics">
+                        <div class="metric">
+                            <div class="metric__value">70%</div>
+                            <div class="metric__label">平均工数削減</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric__value">3日</div>
+                            <div class="metric__label">LP初稿納品</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric__value">20K+</div>
+                            <div class="metric__label">LINE友だち</div>
+                        </div>
+                    </div>
+                    <div class="hero__scroll-indicator">
+                        <div class="scroll-arrow">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <p>スクロールまたはスワイプ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services section section-snap" id="services" data-section="services">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">7つのサービスで<br>ビジネスを総合支援</h2>
+                <p class="section__subtitle">生成AIを活用した効率的なソリューションで、お客様のビジネス成長をサポートします</p>
+            </div>
+            <div class="services__carousel-container">
+                <div class="services__carousel" id="servicesCarousel">
+                    <div class="service-card service-card--featured">
+                        <div class="service-card__icon">🤖</div>
+                        <h3 class="service-card__title">AI顧問サービス</h3>
+                        <p class="service-card__description">ツール選定から業務フロー実装まで伴走。12種業務で平均70%の工数削減を実現。</p>
+                        <div class="service-card__kpi">平均70%工数削減</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-card__icon">📋</div>
+                        <h3 class="service-card__title">事業計画策定</h3>
+                        <p class="service-card__description">AIを活用した市場分析と戦略立案で、実現可能性の高い事業計画を作成。</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-card__icon">📱</div>
+                        <h3 class="service-card__title">SNS運用</h3>
+                        <p class="service-card__description">TikTok・Instagram等のコンテンツ企画から運用まで、AI活用で効率的に実施。</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-card__icon">💻</div>
+                        <h3 class="service-card__title">LP・Web制作</h3>
+                        <p class="service-card__description">企画・デザイン・コーディングをAI支援で高速化。3営業日で初稿納品。</p>
+                        <div class="service-card__kpi">3営業日納品</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-card__icon">💬</div>
+                        <h3 class="service-card__title">LINE施策</h3>
+                        <p class="service-card__description">スタンプラリーや予約システム等の独自アプリ開発。友だち20,000人超の実績。</p>
+                        <div class="service-card__kpi">友だち20K+</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-card__icon">⚙️</div>
+                        <h3 class="service-card__title">開発支援</h3>
+                        <p class="service-card__description">AIをフル活用したスピーディーな開発で、一般発注より短期間での納品が可能。</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-card__icon">📚</div>
+                        <h3 class="service-card__title">教育・研修</h3>
+                        <p class="service-card__description">AI活用の実践的なノウハウを、企業研修やワークショップで提供。</p>
+                    </div>
+                </div>
+                <div class="carousel__indicators">
+                    <button class="indicator active" data-slide="0"></button>
+                    <button class="indicator" data-slide="1"></button>
+                    <button class="indicator" data-slide="2"></button>
+                    <button class="indicator" data-slide="3"></button>
+                    <button class="indicator" data-slide="4"></button>
+                    <button class="indicator" data-slide="5"></button>
+                    <button class="indicator" data-slide="6"></button>
+                </div>
+                <div class="carousel__controls">
+                    <button class="carousel__btn carousel__btn--prev" id="servicesPrev">‹</button>
+                    <button class="carousel__btn carousel__btn--next" id="servicesNext">›</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KPI Highlights -->
+    <section class="kpi-highlights section section--dark section-snap" id="results" data-section="results">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">数字で見る成果</h2>
+                <p class="section__subtitle">生成AI活用による具体的な効果をご覧ください</p>
+            </div>
+            <div class="kpi-grid">
+                <div class="kpi-item">
+                    <div class="kpi-item__category">業務効率化</div>
+                    <div class="kpi-item__value" data-count="75">0%</div>
+                    <div class="kpi-item__label">ECサイト顧客対応</div>
+                    <div class="kpi-item__detail">2h/日 → 30m/日</div>
+                </div>
+                <div class="kpi-item">
+                    <div class="kpi-item__category">コンテンツ制作</div>
+                    <div class="kpi-item__value" data-count="60">0%</div>
+                    <div class="kpi-item__label">動画→記事変換</div>
+                    <div class="kpi-item__detail">5h/本 → 2h/本</div>
+                </div>
+                <div class="kpi-item">
+                    <div class="kpi-item__category">マーケティング</div>
+                    <div class="kpi-item__value" data-count="83">0%</div>
+                    <div class="kpi-item__label">広告クリエイティブ</div>
+                    <div class="kpi-item__detail">30m/本 → 5m/本</div>
+                </div>
+                <div class="kpi-item">
+                    <div class="kpi-item__category">Web制作</div>
+                    <div class="kpi-item__value" data-count="90">0</div>
+                    <div class="kpi-item__label">Core Web Vitals</div>
+                    <div class="kpi-item__detail">パフォーマンススコア</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section class="case-studies section section-snap" id="cases" data-section="cases">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">制作事例</h2>
+                <p class="section__subtitle">多様な業界での実績をご紹介します</p>
+            </div>
+            <div class="cases-carousel-container">
+                <div class="cases-carousel" id="casesCarousel">
+                    <div class="case-card">
+                        <div class="case-card__image">
+                            <img src="assets/case-ijinvlogs.jpg" alt="偉人vlogs" loading="lazy">
+                        </div>
+                        <div class="case-card__content">
+                            <h3 class="case-card__title">偉人vlogs</h3>
+                            <p class="case-card__description">AI生成動画で歴史上の人物のvlogを制作。10日間で50万再生達成。</p>
+                            <div class="case-card__metrics">
+                                <span class="metric-tag">50万再生</span>
+                                <span class="metric-tag">TikTok運用</span>
+                            </div>
+                            <a href="https://ijinvlogs.link" class="case-card__link" target="_blank">サイトを見る</a>
+                        </div>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-card__image">
+                            <img src="assets/case-line-stamp.jpg" alt="LINEスタンプラリー" loading="lazy">
+                        </div>
+                        <div class="case-card__content">
+                            <h3 class="case-card__title">LINEスタンプラリー</h3>
+                            <p class="case-card__description">自治体向けイベント施策。住民参加型のデジタルスタンプラリーシステム。</p>
+                            <div class="case-card__metrics">
+                                <span class="metric-tag">参加率140%向上</span>
+                                <span class="metric-tag">LINE活用</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-card__image">
+                            <img src="assets/case-pitch-timer.jpg" alt="ビジネスピッチタイマー" loading="lazy">
+                        </div>
+                        <div class="case-card__content">
+                            <h3 class="case-card__title">ビジネスピッチタイマー</h3>
+                            <p class="case-card__description">守成クラブ向けイベント用タイマーアプリ。円滑な進行をサポート。</p>
+                            <div class="case-card__metrics">
+                                <span class="metric-tag">イベント効率化</span>
+                                <span class="metric-tag">Web開発</span>
+                            </div>
+                            <a href="pitch-timer/index.html" class="case-card__link">デモを見る</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="cases-carousel__controls">
+                    <button class="carousel__btn carousel__btn--prev" id="casesPrev">‹</button>
+                    <button class="carousel__btn carousel__btn--next" id="casesNext">›</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about section section--light section-snap" id="about" data-section="about">
+        <div class="container">
+            <div class="about__inner">
+                <div class="about__content">
+                    <h2 class="section__title">代表メッセージ</h2>
+                    <p class="about__text">
+                        生成AIの登場により、ビジネスの可能性は大きく広がりました。<br>
+                        私たちは、この技術を実務に活かし、お客様の事業成長を加速させることを使命としています。
+                    </p>
+                    <p class="about__text">
+                        単なるツールの提供ではなく、顧問として伴走し、<br>
+                        具体的な成果物をお届けすることで、確実な成長を実現します。
+                    </p>
+                    <div class="about__profile">
+                        <h3>代表取締役 曽我</h3>
+                        <p>TikTok: @sogashacho</p>
+                    </div>
+                </div>
+                <div class="about__visual">
+                    <div class="about__image">
+                        <img src="assets/profile.jpg" alt="代表取締役 曽我" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact section section-snap" id="contact" data-section="contact">
+        <div class="container">
+            <div class="contact__inner">
+                <div class="contact__content">
+                    <h2 class="section__title">お問い合わせ</h2>
+                    <p class="section__subtitle">
+                        まずは無料相談から。<br>
+                        お客様のビジネス課題をお聞かせください。
+                    </p>
+                </div>
+                <div class="contact__form">
+                    <form id="contactForm" class="form">
+                        <div class="form__grid">
+                            <div class="form__group">
+                                <label for="company" class="form__label">会社名</label>
+                                <input type="text" id="company" name="company" class="form__input" required>
+                            </div>
+                            <div class="form__group">
+                                <label for="name" class="form__label">お名前</label>
+                                <input type="text" id="name" name="name" class="form__input" required>
+                            </div>
+                            <div class="form__group">
+                                <label for="email" class="form__label">メールアドレス</label>
+                                <input type="email" id="email" name="email" class="form__input" required>
+                            </div>
+                            <div class="form__group">
+                                <label for="phone" class="form__label">電話番号</label>
+                                <input type="tel" id="phone" name="phone" class="form__input">
+                            </div>
+                        </div>
+                        <div class="form__group form__group--full">
+                            <label for="service" class="form__label">ご相談内容</label>
+                            <select id="service" name="service" class="form__select" required>
+                                <option value="">選択してください</option>
+                                <option value="ai-consulting">AI顧問サービス</option>
+                                <option value="business-plan">事業計画策定</option>
+                                <option value="sns-management">SNS運用</option>
+                                <option value="web-development">LP・Web制作</option>
+                                <option value="line-solution">LINE施策</option>
+                                <option value="development">開発支援</option>
+                                <option value="education">教育・研修</option>
+                                <option value="other">その他</option>
+                            </select>
+                        </div>
+                        <div class="form__group form__group--full">
+                            <label for="message" class="form__label">詳細・ご要望</label>
+                            <textarea id="message" name="message" class="form__textarea" rows="3" placeholder="プロジェクトの詳細やご要望をお聞かせください"></textarea>
+                        </div>
+                        <div class="form__submit">
+                            <button type="submit" class="btn btn--primary btn--lg btn--full">無料相談を申し込む</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__info">
+                    <h3 class="footer__title">株式会社さだめ</h3>
+                    <p class="footer__text">生成AIを活用したビジネス支援で、お客様の成長を加速します。</p>
+                </div>
+                <div class="footer__links">
+                    <div class="footer__section">
+                        <h4 class="footer__heading">サービス</h4>
+                        <ul class="footer__list">
+                            <li><a href="#services">AI顧問サービス</a></li>
+                            <li><a href="#services">事業計画策定</a></li>
+                            <li><a href="#services">SNS運用</a></li>
+                            <li><a href="#services">LP・Web制作</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__section">
+                        <h4 class="footer__heading">実績</h4>
+                        <ul class="footer__list">
+                            <li><a href="https://ijinvlogs.link" target="_blank">偉人vlogs</a></li>
+                            <li><a href="https://www.tiktok.com/@sogashacho" target="_blank">TikTok運用</a></li>
+                            <li><a href="#cases">制作事例</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__section">
+                        <h4 class="footer__heading">お問い合わせ</h4>
+                        <ul class="footer__list">
+                            <li><a href="#contact">無料相談</a></li>
+                            <li><a href="mailto:info@sadame.com">info@sadame.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2025 株式会社さだめ. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

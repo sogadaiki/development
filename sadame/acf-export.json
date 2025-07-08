@@ -1,0 +1,1385 @@
+{
+    "key": "group_66652a6a1b8b8",
+    "title": "LPコンテンツ",
+    "fields": [
+        {
+            "key": "field_66652a6a2373c",
+            "label": "Hero Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_66652a6a23746",
+            "label": "Headline",
+            "name": "hero_headline",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "価格を<span class=\"highlight\">5倍</span>にして<br>売上<span class=\"highlight\">30倍</span>を実現した<br>実践型経営パートナー",
+            "new_lines": "br",
+            "rows": 3,
+            "placeholder": ""
+        },
+        {
+            "key": "field_66652a6a2374c",
+            "label": "Subtitle",
+            "name": "hero_subtitle",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "20業態の立ち上げ経験を持つ現役経営者が、アドバイスだけでなく具体的な「形になる成果物」で、あなたのビジネスの実行まで伴走します。",
+            "new_lines": "",
+            "rows": 3,
+            "placeholder": ""
+        },
+        {
+            "key": "field_66652a6a23751",
+            "label": "Button Text",
+            "name": "hero_button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "今すぐ無料で経営診断を受ける",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a23757",
+            "label": "Badge 1 Label",
+            "name": "hero_badge_1_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "顧客満足度",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a2375c",
+            "label": "Badge 1 Value",
+            "name": "hero_badge_1_value",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "92%",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a23761",
+            "label": "Badge 2 Label",
+            "name": "hero_badge_2_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "最高売上成長",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a23766",
+            "label": "Badge 2 Value",
+            "name": "hero_badge_2_value",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "30倍",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a2376b",
+            "label": "Badge 3 Label",
+            "name": "hero_badge_3_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "支援実績",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a23770",
+            "label": "Badge 3 Value",
+            "name": "hero_badge_3_value",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "20+",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a23774",
+            "label": "Problem Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_66652a6a23779",
+            "label": "Title",
+            "name": "problem_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "こんなお悩みありませんか？",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a2377e",
+            "label": "Subtitle",
+            "name": "problem_subtitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "一つでも当てはまれば、私たちのサービスが力になれる可能性があります。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a23783",
+            "label": "Problem Card 1 Text",
+            "name": "problem_card_1_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "価格競争から抜け出せない",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a23787",
+            "label": "Problem Card 2 Text",
+            "name": "problem_card_2_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "自社の強みが伝わっていない",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a2378c",
+            "label": "Problem Card 3 Text",
+            "name": "problem_card_3_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "集客がうまくいかない",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a23790",
+            "label": "Problem Card 4 Text",
+            "name": "problem_card_4_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "アドバイスだけで実行できない",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a23794",
+            "label": "Results Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_66652a6a23799",
+            "label": "Title",
+            "name": "results_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "数字が証明する、確かな実績",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a2379d",
+            "label": "Subtitle",
+            "name": "results_subtitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "論より証拠。私たちの支援がもたらした売上成長の一例です。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a237a2",
+            "label": "SVG Code",
+            "name": "results_svg_code",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "グラフのSVGコードをここに貼り付けます。",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "<svg width=\"100%\" height=\"auto\" viewBox=\"0 0 800 400\" role=\"img\" aria-labelledby=\"results-graph-title\">\n                        <title id=\"results-graph-title\">導入前と導入後の売上成長率の推移を示すグラフ</title>\n                        <rect width=\"800\" height=\"400\" fill=\"#ffffff\" rx=\"10\"></rect>\n                        <g stroke=\"#e0e0e0\" stroke-width=\"1\">\n                            <line x1=\"100\" y1=\"50\" x2=\"100\" y2=\"350\"></line>\n                            <line x1=\"100\" y1=\"350\" x2=\"700\" y2=\"350\"></line>\n                            <line x1=\"100\" y1=\"300\" x2=\"700\" y2=\"300\" stroke-dasharray=\"5,5\"></line>\n                            <line x1=\"100\" y1=\"200\" x2=\"700\" y2=\"200\" stroke-dasharray=\"5,5\"></line>\n                            <line x1=\"100\" y1=\"100\" x2=\"700\" y2=\"100\" stroke-dasharray=\"5,5\"></line>\n                        </g>\n                        <text x=\"80\" y=\"355\" text-anchor=\"end\" fill=\"#666\" font-size=\"12\">0倍</text>\n                        <text x=\"80\" y=\"255\" text-anchor=\"end\" fill=\"#666\" font-size=\"12\">10倍</text>\n                        <text x=\"80\" y=\"155\" text-anchor=\"end\" fill=\"#666\" font-size=\"12\">20倍</text>\n                        <text x=\"80\" y=\"55\" text-anchor=\"end\" fill=\"#666\" font-size=\"12\">30倍</text>\n                        <text x=\"100\" y=\"375\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">0ヶ月</text>\n                        <text x=\"400\" y=\"375\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">6ヶ月</text>\n                        <text x=\"700\" y=\"375\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">12ヶ月</text>\n                        <line x1=\"100\" y1=\"340\" x2=\"400\" y2=\"340\" stroke=\"#999\" stroke-width=\"3\"></line>\n                        <text x=\"250\" y=\"325\" text-anchor=\"middle\" fill=\"#999\" font-size=\"14\" font-weight=\"bold\">導入前</text>\n                        <path d=\"M 400 340 Q 450 320 500 280 T 600 180 Q 650 120 700 50\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\"></path>\n                        <text x=\"550\" y=\"130\" text-anchor=\"middle\" fill=\"var(--primary-color)\" font-size=\"16\" font-weight=\"bold\">導入後</text>\n                        <path d=\"M 690 60 L 700 50 L 690 40\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\"></path>\n                    </svg>",
+            "new_lines": "",
+            "rows": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_66652a6a237a6",
+            "label": "Story Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_66652a6a237ab",
+            "label": "Title",
+            "name": "story_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "なぜ私が「形になる成果物」にこだわるのか",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a237b0",
+            "label": "Image",
+            "name": "story_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_66652a6a237b5",
+            "label": "Content",
+            "name": "story_content",
+            "aria-label": "",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "<p>競輪選手を目指し、365日10時間自転車に乗り続けた6年間。プロになれなかった挫折から学んだのは、「正しい方向性と具体的な実行計画がなければ、努力は報われない」という事実でした。</p><p class=\"story__highlight\"><strong>「アドバイスだけでは、事業は1ミリも前に進まない」</strong></p><p>この信念に基づき、飲食業界で年商6億円の事業を築いた経験と、20以上の業態立ち上げで得た知見を全て投入します。机上の空論ではない、現場で即使える「事業計画書」「ブランドデザイン」「教育マニュアル」といった具体的な成果物をお渡しし、あなたの事業が確実に前進するまで伴走します。</p>",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1
+        },
+        {
+            "key": "field_66652a6a237ba",
+            "label": "Testimonials Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_66652a6a237be",
+            "label": "Title",
+            "name": "testimonials_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "お客様の声",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a237c3",
+            "label": "Subtitle",
+            "name": "testimonials_subtitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "私たちの支援で、ビジネスを飛躍させた経営者たちの声をお聞きください。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652f1b4a02c",
+            "label": "Testimonial 1 Text",
+            "name": "testimonial_1_text",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "100",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "価格を5倍にすることに最初は恐怖しかありませんでした。でも、曽我さんが一緒に作ってくれたブランドコンセプトと販促ツールのおかげで、お客様に価値が伝わり、結果的に客数も6倍に。もう価格競争には戻れません。",
+            "new_lines": "br",
+            "rows": 4,
+            "placeholder": ""
+        },
+        {
+            "key": "field_66652f4c4a02d",
+            "label": "Testimonial 1 Author Name",
+            "name": "testimonial_1_author_name",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "田中 雅子 様",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652f6d4a02e",
+            "label": "Testimonial 1 Author Title",
+            "name": "testimonial_1_author_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "PremelCake オーナー",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652fa34a02f",
+            "label": "Testimonial 1 Author Image",
+            "name": "testimonial_1_author_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_66669f3398c76",
+            "label": "Testimonial 2 Text",
+            "name": "testimonial_2_text",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "100",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "new_lines": "br",
+            "rows": 4,
+            "placeholder": ""
+        },
+        {
+            "key": "field_66669f4b98c77",
+            "label": "Testimonial 2 Author Name",
+            "name": "testimonial_2_author_name",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66669f5898c78",
+            "label": "Testimonial 2 Author Title",
+            "name": "testimonial_2_author_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66669f6d98c79",
+            "label": "Testimonial 2 Author Image",
+            "name": "testimonial_2_author_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_66669f8898c7a",
+            "label": "Testimonial 3 Text",
+            "name": "testimonial_3_text",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "new_lines": "br",
+            "rows": 4,
+            "placeholder": ""
+        },
+        {
+            "key": "field_66669fa198c7b",
+            "label": "Testimonial 3 Author Name",
+            "name": "testimonial_3_author_name",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66669fb198c7c",
+            "label": "Testimonial 3 Author Title",
+            "name": "testimonial_3_author_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66669fbe98c7d",
+            "label": "Testimonial 3 Author Image",
+            "name": "testimonial_3_author_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_66652a6a237ed",
+            "label": "Features Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_66652a6a237f1",
+            "label": "Title",
+            "name": "features_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "選ばれる3つの理由",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66652a6a237f5",
+            "label": "Subtitle",
+            "name": "features_subtitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "私たちが多くの経営者から選ばれ、成果を出し続けられる理由をご紹介します。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_666530a6c0c24",
+            "label": "Feature 1 Title",
+            "name": "feature_1_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "1. 形になる成果物",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_666530d7c0c25",
+            "label": "Feature 1 Text",
+            "name": "feature_1_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "事業計画書、マニュアル、デザイン等、すぐに使える具体的なツールを提供します。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6665311bc0c26",
+            "label": "Feature 1 Icon SVG",
+            "name": "feature_1_icon_svg",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z\" /></svg>",
+            "new_lines": "",
+            "rows": 3,
+            "placeholder": ""
+        },
+        {
+            "key": "field_66653177c0c27",
+            "label": "Feature 2 Title",
+            "name": "feature_2_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "2. 20業態の実戦経験",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6665318cc0c28",
+            "label": "Feature 2 Text",
+            "name": "feature_2_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "机上の空論ではない、現場で培った生きた知識で、最適な戦略を立案します。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66653198c0c29",
+            "label": "Feature 2 Icon SVG",
+            "name": "feature_2_icon_svg",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m-7.5-2.28a4.5 4.5 0 0 0-1.88-2.218a4.5 4.5 0 0 0-2.3-2.728M12 12c-.618 0-1.197-.156-1.747-.433m-2.288-4.014A4.5 4.5 0 0 0 5.274 2.28M12 12c.618 0 1.197.156 1.747.433m2.288 4.014A4.5 4.5 0 0 0 18.727 18M12 12v9m-9-9h18\" /></svg>",
+            "new_lines": "",
+            "rows": 3,
+            "placeholder": ""
+        },
+        {
+            "key": "field_666531aac0c2a",
+            "label": "Feature 3 Title",
+            "name": "feature_3_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "3. 実行までの完全伴走",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_666531b7c0c2b",
+            "label": "Feature 3 Text",
+            "name": "feature_3_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "作って終わりではありません。成果が出るまで、責任を持ってサポートします。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_666531c7c0c2c",
+            "label": "Feature 3 Icon SVG",
+            "name": "feature_3_icon_svg",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10\" /></svg>",
+            "new_lines": "",
+            "rows": 3,
+            "placeholder": ""
+        },
+        {
+            "key": "field_666531e8c0c2d",
+            "label": "Process Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_666531f8c0c2e",
+            "label": "Title",
+            "name": "process_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "成功への3ステップ",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6665320ac0c2f",
+            "label": "Subtitle",
+            "name": "process_subtitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "最短距離で成果を出すための、シンプルで効果的なプロセスです。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66653245c0c30",
+            "label": "Process 1 Step Label",
+            "name": "process_1_step_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33.33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "STEP 1",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66653265c0c31",
+            "label": "Process 1 Title",
+            "name": "process_1_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33.33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "無料経営診断",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66653279c0c32",
+            "label": "Process 1 Text",
+            "name": "process_1_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33.33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "現状の課題を分析し、あなたのビジネスが持つ真の成長可能性を明確にします。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_666532aac0c33",
+            "label": "Process 2 Step Label",
+            "name": "process_2_step_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33.33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "STEP 2",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_666532b6c0c34",
+            "label": "Process 2 Title",
+            "name": "process_2_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33.33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "戦略立案＆成果物作成",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_666532c2c0c35",
+            "label": "Process 2 Text",
+            "name": "process_2_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33.33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "診断結果に基づき、具体的な実行計画と、すぐに使えるツール（成果物）を制作します。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_666532d1c0c36",
+            "label": "Process 3 Step Label",
+            "name": "process_3_step_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33.33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "STEP 3",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_666532e0c0c37",
+            "label": "Process 3 Title",
+            "name": "process_3_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33.33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "実行伴走＆成果創出",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_666532f0c0c38",
+            "label": "Process 3 Text",
+            "name": "process_3_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33.33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "計画を実行に移し、PDCAを回しながら、目に見える成果が出るまで伴走します。",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6665330ec0c39",
+            "label": "Contact Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_66653322c0c3a",
+            "label": "Title",
+            "name": "contact_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "あなたのビジネスを変える<br>第一歩を踏み出しませんか？",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_66653335c0c3b",
+            "label": "Description",
+            "name": "contact_description",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "通常3万円の経営診断を、今なら完全無料でご提供します。無理な勧誘は一切ありません。まずはお気軽にご相談ください。",
+            "new_lines": "",
+            "rows": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_6665334ac0c3c",
+            "label": "Button Text",
+            "name": "contact_button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "無料診断を予約する",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6665335ac0c3d",
+            "label": "Form Shortcode",
+            "name": "contact_form_shortcode",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Contact Form 7などのショートコードを貼り付けます。",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "[contact-form-7 id=\"...\"]",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_type",
+                "operator": "==",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0
+}

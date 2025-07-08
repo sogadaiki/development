@@ -1,0 +1,67 @@
+<div class="pitch-timer-app">
+    <h1>車座商談タイマー</h1>
+
+    <div class="settings-panel">
+        <div class="settings-row">
+            <div class="setting-card">
+                <div class="setting-label">ピッチ時間</div>
+                <div class="custom-select">
+                    <select id="pitch-time">
+                        <option value="30">30秒</option>
+                        <option value="60">60秒</option>
+                        <option value="90">90秒</option>
+                        <option value="120" selected>120秒</option>
+                        <option value="180">180秒</option>
+                    </select>
+                </div>
+            </div>
+            <div class="setting-card">
+                <div class="setting-label">発表者数</div>
+                <div class="custom-select">
+                    <select id="num-presenters">
+                        <option value="2">2人</option>
+                        <option value="3">3人</option>
+                        <option value="4" selected>4人</option>
+                        <option value="5">5人</option>
+                        <option value="6">6人</option>
+                        <option value="7">7人</option>
+                        <option value="8">8人</option>
+                        <option value="9">9人</option>
+                        <option value="10">10人</option>
+                    </select>
+                </div>
+            </div>
+            <div class="setting-card theme-card">
+                <div class="setting-label">テーマカラー</div>
+                <div class="theme-buttons">
+                    <button class="theme-btn active" data-theme="red">🔴</button>
+                    <button class="theme-btn" data-theme="blue">🔵</button>
+                    <button class="theme-btn" data-theme="green">🟢</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="timer-display-area">
+        <h2 id="presenter-title">1人目の発表者</h2>
+        <div class="current-pitch-timer">
+            <canvas id="timer-canvas" width="600" height="600"></canvas>
+            <div id="interval-display">
+                <div class="interval-label">Next Presenter</div>
+                <div class="interval-time">10</div>
+                <div class="interval-subtitle">seconds remaining</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="start-button">開始</button>
+        <button id="pause-button">一時停止</button>
+        <button id="next-button">次の発表者</button>
+        <button id="reset-button">リセット</button>
+    </div>
+    
+    <div class="branding-footer">
+        <div class="footer-text">このタイマーは守成クラブヒルノ熊本会場代表の曽我がバイブスで作成しました。ヒルノ熊本会場でお会いできるのを待っています</div>
+    </div>
+</div>

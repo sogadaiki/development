@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>動画プレースホルダー</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #1a365d 0%, #2d5016 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+        .placeholder {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        .text {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .subtext {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="placeholder">
+        <div class="icon">🎬</div>
+        <div class="text">ヒーロー動画エリア</div>
+        <div class="subtext">動画ファイル（assets/hero-video.mp4）を配置してください</div>
+    </div>
+</body>
+</html>

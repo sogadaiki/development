@@ -406,6 +406,8 @@ body {
 .kpi-grid .kpi-item:nth-child(2) { transition-delay: 0.2s; }
 .kpi-grid .kpi-item:nth-child(3) { transition-delay: 0.3s; }
 .kpi-grid .kpi-item:nth-child(4) { transition-delay: 0.4s; }
+.kpi-grid .kpi-item:nth-child(5) { transition-delay: 0.5s; }
+.kpi-grid .kpi-item:nth-child(6) { transition-delay: 0.6s; }
 
 /* Smooth parallax-like effect for better visual flow */
 .section {
@@ -1661,7 +1663,7 @@ body {
 /* KPI Highlights with Numeric Counters */
 .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     max-width: 1000px;
     margin: 0 auto;
@@ -1783,69 +1785,97 @@ body {
 
 .case-card {
     background: var(--white);
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: var(--shadow-md);
-    transition: var(--transition);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    position: relative;
 }
 
 .case-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .case-card__image {
-    height: 200px;
+    height: 240px;
     overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
 .case-card__image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    filter: brightness(0.95) saturate(1.1);
+}
+
+.case-card__placeholder {
+    width: 100%;
+    height: 100%;
     transition: var(--transition);
 }
 
 .case-card:hover .case-card__image img {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    filter: brightness(1) saturate(1.2);
+}
+
+.case-card:hover .case-card__placeholder {
+    transform: scale(1.08);
 }
 
 .case-card__content {
-    padding: 24px;
+    padding: 28px 24px 24px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: 100%;
-    justify-content: space-between;
+    text-align: left;
+    height: auto;
+    min-height: 200px;
 }
 
 .case-card__title {
     font-family: var(--font-inter);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+    color: var(--text-dark);
+    line-height: 1.3;
 }
 
 .case-card__description {
     color: var(--text-light);
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    flex-grow: 1;
 }
 
 .case-card__metrics {
     display: flex;
-    gap: 12px;
-    margin-bottom: 24px;
+    gap: 8px;
+    margin-bottom: 16px;
     flex-wrap: wrap;
 }
 
 .metric-tag {
-    background: rgba(0, 123, 255, 0.1);
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.1) 0%, rgba(0, 123, 255, 0.05) 100%);
     color: var(--primary-blue);
-    padding: 6px 12px;
-    border-radius: 12px;
-    font-size: 0.75rem;
+    padding: 8px 14px;
+    border-radius: 16px;
+    font-size: 0.8rem;
     font-weight: 600;
+    border: 1px solid rgba(0, 123, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.metric-tag:hover {
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.15) 0%, rgba(0, 123, 255, 0.08) 100%);
+    transform: translateY(-1px);
 }
 
 .case-card__link {
@@ -1853,6 +1883,11 @@ body {
     text-decoration: none;
     font-weight: 600;
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    margin-top: auto;
 }
 
 .case-card__link:hover {
@@ -2032,6 +2067,31 @@ body {
     padding-top: 32px;
     text-align: center;
     color: #9ca3af;
+}
+
+/* KPI Grid Mobile Layout */
+@media (max-width: 768px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        max-width: 100%;
+    }
+    
+    .kpi-item {
+        padding: 20px;
+    }
+    
+    .kpi-item__value {
+        font-size: 2rem;
+    }
+    
+    .kpi-item__label {
+        font-size: 0.8rem;
+    }
+    
+    .kpi-item__detail {
+        font-size: 0.75rem;
+    }
 }
 
 /* Responsive Styles */

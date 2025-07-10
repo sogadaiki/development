@@ -29,8 +29,6 @@ body {
     font-feature-settings: "palt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Enhanced scroll snap for strong section boundaries */
-    scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
 }
 
@@ -79,9 +77,10 @@ body {
     box-sizing: border-box;
 }
 
-/* Ensure no horizontal overflow */
+/* Ensure no horizontal overflow but preserve vertical scrolling */
 body {
     overflow-x: hidden;
+    overflow-y: auto; /* Explicitly ensure vertical scrolling works */
 }
 
 * {
@@ -2564,6 +2563,12 @@ body {
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
+    /* Fix mobile scrolling issues */
+    body {
+        touch-action: pan-y; /* Allow vertical scrolling but restrict horizontal */
+        -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+    }
+    
     .form__grid {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -2598,6 +2603,16 @@ body {
     
     .form__feedback h3 {
         font-size: 1.125rem;
+    }
+}
+
+/* Mobile touch optimizations */
+@media (max-width: 1024px) {
+    /* Ensure proper touch behavior */
+    html, body {
+        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
     }
 }
 

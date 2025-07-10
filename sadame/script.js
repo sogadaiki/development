@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
     initFormHandler();
     initHeaderScroll();
-    initSectionSnap();
     initServicesCarousel();
     initVideoBackground();
     initProgressBars();
@@ -66,10 +65,10 @@ function initLogoScrollToTop() {
         
         logoLink.addEventListener('click', function(e) {
             const now = Date.now();
-            console.log('🎯 Logo clicked! Creating explosion...');
+            console.log('🎯 Logo clicked!');
             e.preventDefault();
             
-            // Force close mobile menu if it's open (unified fix)
+            // Force close mobile menu if it's open
             const nav = document.getElementById('headerNav');
             const toggle = document.getElementById('headerToggle');
             const overlay = document.getElementById('mobileOverlay');
@@ -77,66 +76,49 @@ function initLogoScrollToTop() {
                 nav.classList.remove('mobile-open');
                 if (toggle) toggle.classList.remove('active');
                 if (overlay) overlay.classList.remove('active');
-                console.log('🍔 Mobile menu forced closed');
+                restoreBodyScrolling(); // Restore scrolling when closing menu
+                console.log('🍔 Mobile menu closed');
             }
             
             // Throttle click effects
             if (now - lastClick < clickCooldown) {
-                console.log('⏰ Click cooldown active, skipping explosion');
+                console.log('⏰ Click cooldown active');
                 return;
             }
             lastClick = now;
             
-            // Simple explosion effect - create immediately
-            try {
-                createParticleBurst(this, true);
-                console.log('✅ Explosion effect triggered successfully');
-            } catch (error) {
-                console.error('❌ Explosion effect failed:', error);
+            // Simple particle effect for visual feedback (mobile-safe)
+            if (window.innerWidth > 768) {
+                // Only add particle effects on larger screens
+                try {
+                    createParticleBurst(this, true);
+                } catch (error) {
+                    console.error('Particle effect failed:', error);
+                }
             }
             
-            // Add immediate visual feedback
-            this.style.filter = 'brightness(2) drop-shadow(0 0 20px #ffeb3b)';
-            const resetFilter = () => {
-                this.style.filter = '';
-                console.log('🔄 Filter reset complete');
-            };
-            setTimeout(resetFilter, 200);
-            
-            // Smooth scroll to top
+            // Simple visual feedback
+            this.style.transform = 'scale(0.95)';
             setTimeout(() => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            }, 300);
+                this.style.transform = '';
+            }, 150);
             
-            // Optional: Add a subtle animation to the logo
-            const logoImg = document.getElementById('logoImg');
-            if (logoImg) {
-                logoImg.style.transform = 'scale(0.9)';
-                const resetTransform = () => {
-                    logoImg.style.transform = 'none';
-                    console.log('🔄 Transform reset complete');
-                };
-                setTimeout(resetTransform, 150);
-            }
-            
-            // Ensure scroll is working after click (unified for all devices)
-            setTimeout(() => {
-                // Force scroll restoration immediately
-                document.body.style.overflow = 'auto';
-                document.documentElement.style.overflow = 'auto';
-                console.log('🔄 Unified scroll restoration applied');
-            }, 300);
+            // Smooth scroll to top - simpler approach
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     }
 }
 
-// Create dynamic particle burst effect (All devices - unified code)
+// Create dynamic particle burst effect (Desktop only for performance)
 function createParticleBurst(element, isClick = false) {
-    // No more mobile/desktop separation - use same code for all devices
-    console.log('🚀 Unified particle burst for all devices');
+    // Skip on mobile devices for better performance and stability
+    if (window.innerWidth <= 768) {
+        console.log('📱 Skipping particle effect on mobile for stability');
+        return;
+    }
     
     console.log(`🚀 createParticleBurst called with isClick: ${isClick}`);
     
@@ -611,12 +593,22 @@ function initMobileMenu() {
                 nav.classList.remove('mobile-open');
                 toggle.classList.remove('active');
                 if (overlay) overlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                // Restore scrolling properly
+                restoreBodyScrolling();
             } else {
                 nav.classList.add('mobile-open');
                 toggle.classList.add('active');
                 if (overlay) overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                // Only block scrolling on very large screens to avoid mobile issues
+                if (window.innerWidth > 1200) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    // On mobile/tablet, use a different approach
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
+                    document.body.style.top = `-${window.scrollY}px`;
+                    document.body.setAttribute('data-scroll-y', window.scrollY);
+                }
             }
         });
         
@@ -628,7 +620,7 @@ function initMobileMenu() {
                 nav.classList.remove('mobile-open');
                 toggle.classList.remove('active');
                 if (overlay) overlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                restoreBodyScrolling();
             });
         });
         
@@ -638,7 +630,7 @@ function initMobileMenu() {
                 nav.classList.remove('mobile-open');
                 toggle.classList.remove('active');
                 if (overlay) overlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                restoreBodyScrolling();
             }
         });
         
@@ -648,7 +640,7 @@ function initMobileMenu() {
                 nav.classList.remove('mobile-open');
                 toggle.classList.remove('active');
                 overlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                restoreBodyScrolling();
             });
         }
         
@@ -658,10 +650,29 @@ function initMobileMenu() {
                 nav.classList.remove('mobile-open');
                 toggle.classList.remove('active');
                 if (overlay) overlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                restoreBodyScrolling();
             });
         }
     }
+}
+
+// Helper function to restore body scrolling after mobile menu
+function restoreBodyScrolling() {
+    const scrollY = document.body.getAttribute('data-scroll-y');
+    
+    // Reset all body styles
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.top = '';
+    document.body.style.overflow = '';
+    document.body.removeAttribute('data-scroll-y');
+    
+    // Restore scroll position if it was saved
+    if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY));
+    }
+    
+    console.log('📱 Body scrolling restored, scroll position:', scrollY || '0');
 }
 
 // Contact form handler
@@ -1190,185 +1201,8 @@ function throttle(func, limit) {
     };
 }
 
-// Enhanced Section Snap Functionality for LIG-style fixed section feeling
-function initSectionSnap() {
-    const sections = document.querySelectorAll('.section-snap');
-    if (sections.length === 0) {
-        console.log('No section-snap elements found');
-        return;
-    }
-    
-    let isScrolling = false;
-    let scrollTimeout;
-    let lastScrollTime = 0;
-    let scrollVelocity = 0;
-    let lastScrollTop = 0;
-    
-    // Enhanced scroll-snap with smart tolerance
-    sections.forEach((section, index) => {
-        section.style.scrollSnapAlign = 'start';
-        section.style.scrollSnapStop = 'normal'; // Less aggressive snapping
-        section.setAttribute('data-section-index', index);
-    });
-    
-    // Smart snap tolerance function
-    function shouldSnapToSection(sectionTop, currentScroll) {
-        const snapTolerance = 100; // Increased tolerance zone to 100px
-        const distanceFromTop = Math.abs(currentScroll - sectionTop);
-        
-        // Snap if we're within tolerance OR if scroll velocity is very low (almost stopped)
-        return distanceFromTop <= snapTolerance || Math.abs(scrollVelocity) < 0.5;
-    }
-    
-    // Add section transition indicators
-    function addSectionIndicators() {
-        if (sections.length === 0) return; // Guard clause
-        
-        const indicator = document.createElement('div');
-        indicator.className = 'section-indicators';
-        indicator.innerHTML = Array.from(sections).map((_, index) => 
-            `<div class="section-indicator" data-section="${index}"></div>`
-        ).join('');
-        document.body.appendChild(indicator);
-        
-        // Update active indicator on scroll
-        updateActiveIndicator();
-    }
-    
-    function updateActiveIndicator() {
-        const indicators = document.querySelectorAll('.section-indicator');
-        const currentSectionIndex = getCurrentSectionIndex();
-        
-        indicators.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === currentSectionIndex);
-        });
-    }
-    
-    function getCurrentSectionIndex() {
-        const scrollPosition = window.pageYOffset;
-        
-        for (let i = 0; i < sections.length; i++) {
-            const section = sections[i];
-            const sectionTop = section.offsetTop;
-            const sectionBottom = sectionTop + section.offsetHeight;
-            
-            if (scrollPosition >= sectionTop - 50 && scrollPosition < sectionBottom - 50) {
-                return i;
-            }
-        }
-        return 0;
-    }
-    
-    // Enhanced scroll snap behavior with smart snapping
-    function handleScrollEnd() {
-        if (!isScrolling) return;
-        
-        isScrolling = false;
-        const currentScroll = window.pageYOffset;
-        const currentTime = Date.now();
-        
-        // Calculate scroll velocity
-        const timeDiff = currentTime - lastScrollTime;
-        scrollVelocity = timeDiff > 0 ? (currentScroll - lastScrollTop) / timeDiff : 0;
-        
-        // Find the closest section
-        let closestSection = null;
-        let closestDistance = Infinity;
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const distance = Math.abs(currentScroll - sectionTop);
-            
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestSection = section;
-            }
-        });
-        
-        // More lenient snapping conditions
-        if (closestSection) {
-            const sectionTop = closestSection.offsetTop;
-            const distanceFromTop = Math.abs(currentScroll - sectionTop);
-            
-            // Snap if:
-            // 1. Very close to section start (within 100px)
-            // 2. OR scroll has stopped and we're reasonably close (within 200px)
-            if (distanceFromTop <= 100 || (Math.abs(scrollVelocity) < 0.5 && distanceFromTop <= 200)) {
-                closestSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-        
-        updateActiveIndicator();
-        lastScrollTop = currentScroll;
-        lastScrollTime = currentTime;
-    }
-    
-    // Scroll event handling with smart throttling
-    const throttledScrollHandler = throttle(() => {
-        const currentScroll = window.pageYOffset;
-        const currentTime = Date.now();
-        
-        // Calculate velocity for smart snapping
-        if (lastScrollTime > 0) {
-            const timeDiff = currentTime - lastScrollTime;
-            scrollVelocity = timeDiff > 0 ? (currentScroll - lastScrollTop) / timeDiff : 0;
-        }
-        
-        isScrolling = true;
-        clearTimeout(scrollTimeout);
-        
-        updateActiveIndicator();
-        
-        // Shorter timeout for more responsive snapping
-        scrollTimeout = setTimeout(handleScrollEnd, 200);
-        
-        lastScrollTop = currentScroll;
-        lastScrollTime = currentTime;
-    }, 16);
-    
-    window.addEventListener('scroll', throttledScrollHandler);
-    
-    // Initialize indicators
-    addSectionIndicators();
-    
-    // Add click functionality to indicators
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('section-indicator')) {
-            const sectionIndex = parseInt(e.target.getAttribute('data-section'));
-            if (sections[sectionIndex]) {
-                sections[sectionIndex].scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-    });
-    
-    // Keyboard navigation for sections
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-            e.preventDefault();
-            const currentIndex = getCurrentSectionIndex();
-            let targetIndex;
-            
-            if (e.key === 'ArrowDown') {
-                targetIndex = Math.min(currentIndex + 1, sections.length - 1);
-            } else {
-                targetIndex = Math.max(currentIndex - 1, 0);
-            }
-            
-            if (targetIndex !== currentIndex) {
-                sections[targetIndex].scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-    });
-}
+// Section Snap functionality removed for better stability
+
 // Simplified Horizontal Scroll for Services
 function initServicesCarousel() {
     const carousel = document.getElementById('servicesCarousel');

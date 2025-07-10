@@ -69,6 +69,17 @@ function initLogoScrollToTop() {
             console.log('🎯 Logo clicked! Creating explosion...');
             e.preventDefault();
             
+            // Force close mobile menu if it's open (unified fix)
+            const nav = document.getElementById('headerNav');
+            const toggle = document.getElementById('headerToggle');
+            const overlay = document.getElementById('mobileOverlay');
+            if (nav && nav.classList.contains('mobile-open')) {
+                nav.classList.remove('mobile-open');
+                if (toggle) toggle.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                console.log('🍔 Mobile menu forced closed');
+            }
+            
             // Throttle click effects
             if (now - lastClick < clickCooldown) {
                 console.log('⏰ Click cooldown active, skipping explosion');
@@ -111,49 +122,21 @@ function initLogoScrollToTop() {
                 setTimeout(resetTransform, 150);
             }
             
-            // Ensure touch events are not blocked after click (mobile fix)
+            // Ensure scroll is working after click (unified for all devices)
             setTimeout(() => {
-                // Complete reset of all scroll-blocking styles
-                document.body.style.touchAction = '';
-                document.documentElement.style.touchAction = '';
-                document.body.style.overflow = '';
-                document.documentElement.style.overflow = '';
-                document.body.style.overflowY = '';
-                document.documentElement.style.overflowY = '';
-                document.body.style.pointerEvents = '';
-                document.documentElement.style.pointerEvents = '';
-                document.body.style.userSelect = '';
-                document.documentElement.style.userSelect = '';
-                
-                // Force scroll restoration
+                // Force scroll restoration immediately
                 document.body.style.overflow = 'auto';
                 document.documentElement.style.overflow = 'auto';
-                
-                console.log('📱 Complete scroll restoration applied');
-            }, 500);
+                console.log('🔄 Unified scroll restoration applied');
+            }, 300);
         });
     }
 }
 
-// Create dynamic particle burst effect (All devices)
+// Create dynamic particle burst effect (All devices - unified code)
 function createParticleBurst(element, isClick = false) {
-    // Only disable on very small screens (actual phones)
-    const isSmallMobile = window.innerWidth <= 480;
-    if (isSmallMobile) {
-        console.log('📱 Small mobile detected - particle effects disabled');
-        
-        // Even on small mobile, ensure scroll is working after click
-        if (isClick) {
-            setTimeout(() => {
-                document.body.style.overflow = 'auto';
-                document.documentElement.style.overflow = 'auto';
-                document.body.style.touchAction = '';
-                document.documentElement.style.touchAction = '';
-                console.log('📱 Mobile scroll restoration applied even without particles');
-            }, 500);
-        }
-        return;
-    }
+    // No more mobile/desktop separation - use same code for all devices
+    console.log('🚀 Unified particle burst for all devices');
     
     console.log(`🚀 createParticleBurst called with isClick: ${isClick}`);
     
@@ -251,23 +234,10 @@ function createParticleBurst(element, isClick = false) {
             console.log('🖱️ Scroll check - body overflow:', document.body.style.overflow || 'default');
             console.log('🖱️ Scroll check - html overflow:', document.documentElement.style.overflow || 'default');
             
-            // Ensure touch events are fully restored (mobile fix)
-            document.body.style.touchAction = '';
-            document.documentElement.style.touchAction = '';
-            document.body.style.overflow = '';
-            document.documentElement.style.overflow = '';
-            document.body.style.overflowY = '';
-            document.documentElement.style.overflowY = '';
-            document.body.style.pointerEvents = '';
-            document.documentElement.style.pointerEvents = '';
-            document.body.style.userSelect = '';
-            document.documentElement.style.userSelect = '';
-            
-            // Force scroll restoration
+            // Ensure scroll is working after cleanup (unified for all devices)
             document.body.style.overflow = 'auto';
             document.documentElement.style.overflow = 'auto';
-            
-            console.log('📱 Complete scroll restoration applied after cleanup');
+            console.log('🔄 Unified scroll restoration applied after cleanup');
         }
     }, maxDuration);
 }

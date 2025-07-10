@@ -293,35 +293,107 @@ function initViewportHeight() {
     window.addEventListener('scroll', requestTick);
 }
 
-// Video Background with Fallback
+// Hero Background Video Rotation System
 function initVideoBackground() {
     const video = document.getElementById('heroVideo');
     const fallback = document.getElementById('videoFallback');
     
     if (!video || !fallback) return;
     
-    // Show fallback immediately
+    // Array of video sources for rotation
+    const videoSources = [
+        'video/A_closeup_shot_202507101206.mp4',
+        'video/A_dynamic_slowmotion_202507101206.mp4',
+        'video/A_professional_shot_202507101206.mp4'
+    ];
+    
+    let currentVideoIndex = 0;
+    let loadAttempts = 0;
+    const maxAttempts = videoSources.length;
+    
+    // Show fallback initially
     fallback.classList.add('active');
     
-    // Try to load video
-    video.addEventListener('loadeddata', function() {
-        // Video loaded successfully, hide fallback
-        fallback.classList.remove('active');
-    });
+    // Function to load a specific video
+    function loadVideo(videoUrl) {
+        return new Promise((resolve, reject) => {
+            const source = video.querySelector('source');
+            if (source) {
+                source.src = videoUrl;
+                video.load();
+                
+                const onLoadedData = () => {
+                    video.removeEventListener('loadeddata', onLoadedData);
+                    video.removeEventListener('error', onError);
+                    resolve();
+                };
+                
+                const onError = () => {
+                    video.removeEventListener('loadeddata', onLoadedData);
+                    video.removeEventListener('error', onError);
+                    reject();
+                };
+                
+                video.addEventListener('loadeddata', onLoadedData);
+                video.addEventListener('error', onError);
+            } else {
+                reject('No source element found');
+            }
+        });
+    }
     
-    video.addEventListener('error', function() {
-        // Video failed to load, keep fallback
-        fallback.classList.add('active');
-        console.log('Hero video failed to load, using fallback background');
-    });
-    
-    // If video doesn't load within 5 seconds, use fallback
-    setTimeout(() => {
-        if (video.readyState < 2) { // Less than HAVE_CURRENT_DATA
-            fallback.classList.add('active');
-            console.log('Hero video load timeout, using fallback background');
+    // Function to play next video in sequence
+    async function playNextVideo() {
+        try {
+            const videoUrl = videoSources[currentVideoIndex];
+            console.log(`🎬 Loading video ${currentVideoIndex + 1}/${videoSources.length}: ${videoUrl}`);
+            
+            await loadVideo(videoUrl);
+            
+            // Video loaded successfully
+            fallback.classList.remove('active');
+            video.play();
+            
+            console.log(`✅ Video ${currentVideoIndex + 1} loaded and playing`);
+            
+            // Move to next video for next cycle
+            currentVideoIndex = (currentVideoIndex + 1) % videoSources.length;
+            loadAttempts = 0; // Reset attempts on success
+            
+        } catch (error) {
+            console.log(`❌ Video ${currentVideoIndex + 1} failed to load:`, error);
+            
+            loadAttempts++;
+            currentVideoIndex = (currentVideoIndex + 1) % videoSources.length;
+            
+            // If we've tried all videos, show fallback
+            if (loadAttempts >= maxAttempts) {
+                fallback.classList.add('active');
+                console.log('🚫 All videos failed to load, using fallback background');
+                return;
+            }
+            
+            // Try next video after brief delay
+            setTimeout(() => playNextVideo(), 1000);
         }
-    }, 5000);
+    }
+    
+    // Handle video end event - play next video in rotation
+    video.addEventListener('ended', () => {
+        console.log('🔄 Video ended, switching to next video...');
+        playNextVideo();
+    });
+    
+    // Start with the first video
+    playNextVideo();
+    
+    // Fallback timeout - if no video loads within 10 seconds
+    setTimeout(() => {
+        if (video.readyState < 2) {
+            fallback.classList.add('active');
+            console.log('⏰ Video load timeout, using fallback background');
+        }
+    }, 10000);
 }
 
 // Smooth Scrolling for navigation links

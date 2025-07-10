@@ -1408,21 +1408,43 @@ body {
 /* Services Section */
 .services__carousel-container {
     position: relative;
-    overflow: hidden;
-    border-radius: 16px;
+    width: 100%;
+    /* Allow horizontal overflow for scrolling */
+    overflow: visible;
+    /* Prevent parent scroll interference */
+    touch-action: pan-x;
 }
 
 .services__carousel {
     display: flex;
-    gap: 32px;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     padding: 20px 0;
+    scroll-behavior: smooth;
+    /* Force horizontal scrolling to work */
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+    /* Ensure container can scroll horizontally */
+    width: 100%;
+    /* Add right padding to show partial next card */
+    padding-right: 80px;
+}
+
+.services__carousel::-webkit-scrollbar {
+    display: none;
 }
 
 .services__carousel .service-card {
     flex: 0 0 auto;
-    width: 350px;
-    max-width: 90vw;
+    scroll-snap-align: start;
+    /* Fixed width for proper scrolling */
+    width: 300px;
+    min-width: 300px;
+    max-width: 300px;
 }
 
 .service-card {
@@ -1755,21 +1777,52 @@ body {
 /* Case Studies Carousel */
 .cases-carousel-container {
     position: relative;
-    overflow: hidden;
+    /* Allow horizontal overflow for scrolling */
+    overflow: visible;
     border-radius: 16px;
+    /* Add padding to show first card properly */
+    padding: 0 20px;
+    /* Prevent parent scroll interference */
+    touch-action: pan-x;
 }
 
 .cases-carousel {
     display: flex;
-    gap: 32px;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     padding: 20px 0;
+    scroll-behavior: smooth;
+    /* Show partial next card */
+    padding-right: 80px;
+    /* Ensure horizontal scrolling works */
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+    width: 100%;
+}
+
+.cases-carousel::-webkit-scrollbar {
+    display: none;
 }
 
 .cases-carousel .case-card {
     flex: 0 0 auto;
-    width: 380px;
-    max-width: 90vw;
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+}
+
+/* Only apply scroll-snap-align to the first card to ensure it's always the starting point */
+.cases-carousel .case-card:first-child {
+    scroll-snap-align: start;
+}
+
+/* Apply scroll-snap-align to subsequent cards only when they can be fully displayed */
+.cases-carousel .case-card:not(:first-child) {
+    scroll-snap-align: center;
 }
 
 .cases-carousel__controls {
@@ -2114,7 +2167,14 @@ body {
     }
     
     .services__carousel .service-card {
-        width: 400px;
+        width: 350px;
+        min-width: 350px;
+        max-width: 350px;
+    }
+    
+    .services__carousel {
+        padding-right: 80px;
+        gap: 24px;
     }
     
     .form__grid {
@@ -2154,7 +2214,14 @@ body {
 
 @media (min-width: 1024px) {
     .services__carousel .service-card {
-        width: 400px;
+        width: 380px;
+        min-width: 380px;
+        max-width: 380px;
+    }
+    
+    .services__carousel {
+        padding-right: 100px;
+        gap: 28px;
     }
     
     .cases-carousel .case-card {
@@ -2167,7 +2234,12 @@ body {
     }
     
     .cases-carousel-container {
-        overflow: hidden;
+        overflow: visible;
+    }
+    
+    .cases-carousel {
+        padding-right: 100px;
+        gap: 28px;
     }
 }
 
@@ -2206,40 +2278,50 @@ body {
         display: flex; width: 40px; height: 40px; font-size: 1.2rem;
     }
     
-    .services__carousel {
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        padding: 0 20px;
-        scroll-behavior: smooth;
+    .services__carousel-container {
+        padding: 0 10px;
+        /* Stronger touch action for mobile */
+        touch-action: pan-x;
     }
     
-    .services__carousel::-webkit-scrollbar {
-        display: none;
+    .services__carousel {
+        gap: 16px;
+        padding-right: 40px;
+        /* Ensure horizontal scrolling on mobile */
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
     }
     
     .services__carousel .service-card {
-        scroll-snap-align: center;
-        width: 280px; /* Optimized for mobile */
+        width: 280px;
         min-width: 280px;
-        flex-shrink: 0;
+        max-width: 280px;
+        scroll-snap-align: start;
+    }
+    
+    .cases-carousel-container {
+        padding: 0 10px;
     }
     
     .cases-carousel {
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-    
-    .cases-carousel::-webkit-scrollbar {
-        display: none;
+        gap: 16px;
+        padding-right: 40px;
     }
     
     .cases-carousel .case-card {
+        width: calc(100vw - 100px);
+        min-width: 280px;
+        max-width: 320px;
+    }
+    
+    /* Mobile: Only first card snaps to start */
+    .cases-carousel .case-card:first-child {
+        scroll-snap-align: start;
+    }
+    
+    /* Mobile: Subsequent cards snap to center */
+    .cases-carousel .case-card:not(:first-child) {
         scroll-snap-align: center;
-        width: 320px; /* Smaller cards on mobile */
     }
     
     .kpi-item__header {

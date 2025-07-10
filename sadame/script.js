@@ -1100,17 +1100,23 @@ function initSectionSnap() {
         }
     });
 }
-// Simplified Infinite Carousel for Services
+// Simplified Horizontal Scroll for Services
 function initServicesCarousel() {
     const carousel = document.getElementById('servicesCarousel');
-    const prevBtn = document.getElementById('servicesPrev');
-    const nextBtn = document.getElementById('servicesNext');
-    const indicators = document.querySelectorAll('.indicator');
     
     if (!carousel) {
         console.error('Services carousel not found!');
         return;
     }
+    
+    console.log('Services carousel: Using native scroll behavior');
+    
+    // Debug: Add scroll event listener to test
+    carousel.addEventListener('scroll', () => {
+        console.log('Services carousel scrolled:', carousel.scrollLeft);
+    });
+    
+    return; // Use simple native scroll instead of complex carousel
     
     const cards = Array.from(carousel.children);
     const totalSlides = cards.length;
@@ -1249,20 +1255,29 @@ function initServicesCarousel() {
 // Simplified Infinite Carousel for Cases
 function initCasesCarousel() {
     const carousel = document.getElementById('casesCarousel');
-    const prevBtn = document.getElementById('casesPrev');
-    const nextBtn = document.getElementById('casesNext');
-    
-    console.log('Initializing simple infinite cases carousel...');
     
     if (!carousel) {
         console.log('Cases carousel not found');
         return;
     }
     
-    const cards = Array.from(carousel.children);
-    const totalSlides = cards.length;
-    let currentSlide = 0;
-    let isTransitioning = false;
+    console.log('Cases carousel: Using native scroll behavior');
+    
+    // Ensure carousel starts at the beginning (first card)
+    carousel.scrollLeft = 0;
+    
+    // Force scroll to start after a brief delay to ensure DOM is ready
+    setTimeout(() => {
+        carousel.scrollLeft = 0;
+        console.log('Cases carousel: Forced scroll to start position');
+    }, 100);
+    
+    // Debug: Add scroll event listener to test
+    carousel.addEventListener('scroll', () => {
+        console.log('Cases carousel scrolled:', carousel.scrollLeft);
+    });
+    
+    return; // Use simple native scroll instead of complex carousel
     
     function getCaseCardWidth() {
         const screenWidth = window.innerWidth;

@@ -86,9 +86,11 @@ function initLogoScrollToTop() {
             
             // Add immediate visual feedback
             this.style.filter = 'brightness(2) drop-shadow(0 0 20px #ffeb3b)';
-            setTimeout(() => {
+            const resetFilter = () => {
                 this.style.filter = '';
-            }, 200);
+                console.log('🔄 Filter reset complete');
+            };
+            setTimeout(resetFilter, 200);
             
             // Smooth scroll to top
             setTimeout(() => {
@@ -102,10 +104,19 @@ function initLogoScrollToTop() {
             const logoImg = document.getElementById('logoImg');
             if (logoImg) {
                 logoImg.style.transform = 'scale(0.9)';
-                setTimeout(() => {
-                    logoImg.style.transform = 'none'; // Reset to none instead of scale(1)
-                }, 150);
+                const resetTransform = () => {
+                    logoImg.style.transform = 'none';
+                    console.log('🔄 Transform reset complete');
+                };
+                setTimeout(resetTransform, 150);
             }
+            
+            // Ensure touch events are not blocked after click (mobile fix)
+            setTimeout(() => {
+                document.body.style.touchAction = '';
+                document.documentElement.style.touchAction = '';
+                console.log('📱 Touch events restored');
+            }, 500);
         });
     }
 }
@@ -214,6 +225,13 @@ function createParticleBurst(element, isClick = false) {
             // Verify scroll is working after cleanup
             console.log('🖱️ Scroll check - body overflow:', document.body.style.overflow || 'default');
             console.log('🖱️ Scroll check - html overflow:', document.documentElement.style.overflow || 'default');
+            
+            // Ensure touch events are fully restored (mobile fix)
+            document.body.style.touchAction = '';
+            document.documentElement.style.touchAction = '';
+            document.body.style.pointerEvents = '';
+            document.documentElement.style.pointerEvents = '';
+            console.log('📱 Touch events fully restored after cleanup');
         }
     }, maxDuration);
 }

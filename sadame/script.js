@@ -1257,20 +1257,11 @@ function initCasesCarousel() {
     const carousel = document.getElementById('casesCarousel');
     
     if (!carousel) {
-        console.log('Cases carousel not found');
+        console.error('Cases carousel not found!');
         return;
     }
     
     console.log('Cases carousel: Using native scroll behavior');
-    
-    // Ensure carousel starts at the beginning (first card)
-    carousel.scrollLeft = 0;
-    
-    // Force scroll to start after a brief delay to ensure DOM is ready
-    setTimeout(() => {
-        carousel.scrollLeft = 0;
-        console.log('Cases carousel: Forced scroll to start position');
-    }, 100);
     
     // Debug: Add scroll event listener to test
     carousel.addEventListener('scroll', () => {

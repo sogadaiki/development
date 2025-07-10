@@ -1777,13 +1777,12 @@ body {
 /* Case Studies Carousel */
 .cases-carousel-container {
     position: relative;
+    width: 100%;
     /* Allow horizontal overflow for scrolling */
     overflow: visible;
-    border-radius: 16px;
-    /* Add padding to show first card properly */
-    padding: 0 20px;
     /* Prevent parent scroll interference */
     touch-action: pan-x;
+    padding: 0 20px;
 }
 
 .cases-carousel {
@@ -1796,12 +1795,13 @@ body {
     -ms-overflow-style: none;
     padding: 20px 0;
     scroll-behavior: smooth;
-    /* Show partial next card */
-    padding-right: 80px;
-    /* Ensure horizontal scrolling works */
+    /* Force horizontal scrolling to work */
     touch-action: pan-x;
     overscroll-behavior-x: contain;
+    /* Ensure container can scroll horizontally */
     width: 100%;
+    /* Add right padding to show partial next card */
+    padding-right: 80px;
 }
 
 .cases-carousel::-webkit-scrollbar {
@@ -1810,19 +1810,10 @@ body {
 
 .cases-carousel .case-card {
     flex: 0 0 auto;
+    scroll-snap-align: start;
     width: 350px;
     min-width: 350px;
     max-width: 350px;
-}
-
-/* Only apply scroll-snap-align to the first card to ensure it's always the starting point */
-.cases-carousel .case-card:first-child {
-    scroll-snap-align: start;
-}
-
-/* Apply scroll-snap-align to subsequent cards only when they can be fully displayed */
-.cases-carousel .case-card:not(:first-child) {
-    scroll-snap-align: center;
 }
 
 .cases-carousel__controls {
@@ -2309,19 +2300,10 @@ body {
     }
     
     .cases-carousel .case-card {
-        width: calc(100vw - 100px);
+        width: 280px;
         min-width: 280px;
-        max-width: 320px;
-    }
-    
-    /* Mobile: Only first card snaps to start */
-    .cases-carousel .case-card:first-child {
+        max-width: 280px;
         scroll-snap-align: start;
-    }
-    
-    /* Mobile: Subsequent cards snap to center */
-    .cases-carousel .case-card:not(:first-child) {
-        scroll-snap-align: center;
     }
     
     .kpi-item__header {

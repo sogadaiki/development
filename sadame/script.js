@@ -91,9 +91,10 @@ function initScrollAnimations() {
         });
     }, observerOptions);
     
-    // Observe all sections
+    // Observe all sections and make them visible immediately
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
+        section.classList.add('visible'); // Make all sections visible immediately
         observer.observe(section);
     });
 }
@@ -129,31 +130,87 @@ function initProgressBars() {
     });
 }
 
-// Counter animations for KPI numbers (legacy support)
-function animateCounters() {
+// Initialize counter animations with intersection observer
+function initCounterAnimations() {
     const counters = document.querySelectorAll('.kpi-item__value[data-count]');
     
+    if (counters.length === 0) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.3,
+        rootMargin: '0px 0px -100px 0px'
+    });
+    
     counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-count'));
-        const duration = 2000; // 2 seconds
-        const step = target / (duration / 16); // 60fps
-        let current = 0;
+        observer.observe(counter);
+    });
+}
+
+// Counter animations for KPI numbers with improved easing
+function animateCounter(counter) {
+    if (counter.classList.contains('animated')) return; // Prevent re-animation
+    
+    const target = parseInt(counter.getAttribute('data-count'));
+    const duration = 2000; // 2 seconds
+    const startTime = performance.now();
+    const originalText = counter.textContent;
+    
+    // Mark as animated
+    counter.classList.add('animated');
+    
+    // Easing function for smooth animation
+    function easeOutQuart(t) {
+        return 1 - Math.pow(1 - t, 4);
+    }
+    
+    function animate(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
         
-        const timer = setInterval(() => {
-            current += step;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            
-            // Format the number based on the original text
-            const originalText = counter.textContent;
+        // Apply easing
+        const easedProgress = easeOutQuart(progress);
+        const current = Math.floor(easedProgress * target);
+        
+        // Format the number based on the original text content
+        if (originalText.includes('%')) {
+            counter.textContent = current + '%';
+        } else if (originalText.includes('K')) {
+            counter.textContent = current + 'K+';
+        } else {
+            counter.textContent = current;
+        }
+        
+        // Continue animation if not complete
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            // Ensure exact final value
             if (originalText.includes('%')) {
-                counter.textContent = Math.floor(current) + '%';
+                counter.textContent = target + '%';
+            } else if (originalText.includes('K')) {
+                counter.textContent = target + 'K+';
             } else {
-                counter.textContent = Math.floor(current);
+                counter.textContent = target;
             }
-        }, 16);
+        }
+    }
+    
+    // Start animation
+    requestAnimationFrame(animate);
+}
+
+// Legacy function for backward compatibility
+function animateCounters() {
+    const counters = document.querySelectorAll('.kpi-item__value[data-count]');
+    counters.forEach(counter => {
+        animateCounter(counter);
     });
 }
 
@@ -390,134 +447,31 @@ function throttle(func, limit) {
     };
 }
 
-// Section Snap Functionality
+// Section Snap Functionality - Ultra-simplified for maximum smoothness
 function initSectionSnap() {
-    // Only enable on desktop and tablets (not on mobile)
-    if (window.innerWidth <= 767) return;
+    // Temporarily disable section snap for testing
+    // This allows normal scroll behavior while we optimize
+    console.log('Section snap temporarily disabled for smooth scrolling');
     
-    // Disable on touchscreens except large tablets
-    if ('ontouchstart' in window && window.innerWidth <= 1024) return;
+    // Enable CSS scroll-snap instead for a more native experience
+    document.documentElement.style.scrollBehavior = 'smooth';
     
+    // Apply stronger scroll-snap alignment to sections
     const sections = document.querySelectorAll('.section-snap');
-    let currentSection = 0;
-    let isScrolling = false;
-    
-    function scrollToSection(index) {
-        if (index < 0 || index >= sections.length) return;
-        
-        isScrolling = true;
-        sections[index].scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
-        
-        currentSection = index;
-        
-        setTimeout(() => {
-            isScrolling = false;
-        }, 1000);
-    }
-    
-    // Wheel event for scroll lock
-    function handleWheel(e) {
-        if (isScrolling) {
-            e.preventDefault();
-            return;
-        }
-        
-        e.preventDefault();
-        
-        if (e.deltaY > 0) {
-            // Scroll down
-            if (currentSection < sections.length - 1) {
-                scrollToSection(currentSection + 1);
-            }
-        } else {
-            // Scroll up
-            if (currentSection > 0) {
-                scrollToSection(currentSection - 1);
-            }
-        }
-    }
-    
-    // Touch events for mobile swipe
-    let touchStartY = 0;
-    
-    function handleTouchStart(e) {
-        touchStartY = e.touches[0].clientY;
-    }
-    
-    function handleTouchEnd(e) {
-        if (isScrolling) return;
-        
-        const touchEndY = e.changedTouches[0].clientY;
-        const deltaY = touchStartY - touchEndY;
-        
-        if (Math.abs(deltaY) > 50) { // Minimum swipe distance
-            if (deltaY > 0) {
-                // Swipe up (scroll down)
-                if (currentSection < sections.length - 1) {
-                    scrollToSection(currentSection + 1);
-                }
-            } else {
-                // Swipe down (scroll up)
-                if (currentSection > 0) {
-                    scrollToSection(currentSection - 1);
-                }
-            }
-        }
-    }
-    
-    // Add event listeners
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (isScrolling) return;
-        
-        switch(e.key) {
-            case 'ArrowDown':
-            case 'PageDown':
-                e.preventDefault();
-                if (currentSection < sections.length - 1) {
-                    scrollToSection(currentSection + 1);
-                }
-                break;
-            case 'ArrowUp':
-            case 'PageUp':
-                e.preventDefault();
-                if (currentSection > 0) {
-                    scrollToSection(currentSection - 1);
-                }
-                break;
-            case 'Home':
-                e.preventDefault();
-                scrollToSection(0);
-                break;
-            case 'End':
-                e.preventDefault();
-                scrollToSection(sections.length - 1);
-                break;
-        }
+    sections.forEach(section => {
+        // Stronger CSS scroll-snap for clear section feeling
+        section.style.scrollSnapAlign = 'start';
+        section.style.scrollSnapStop = 'always';
     });
     
-    // Update current section on scroll (for manual scrolling)
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-                const sectionIndex = Array.from(sections).indexOf(entry.target);
-                if (sectionIndex !== -1) {
-                    currentSection = sectionIndex;
-                }
-            }
-        });
-    }, {
-        threshold: 0.5
+    // Add a subtle scroll indicator instead of aggressive snapping
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            // Add any scroll-based animations here if needed
+        }, 100);
     });
-    
-    sections.forEach(section => sectionObserver.observe(section));
 }
 // Simplified Infinite Carousel for Services
 function initServicesCarousel() {
@@ -525,8 +479,6 @@ function initServicesCarousel() {
     const prevBtn = document.getElementById('servicesPrev');
     const nextBtn = document.getElementById('servicesNext');
     const indicators = document.querySelectorAll('.indicator');
-    
-    console.log('Initializing simple infinite services carousel...');
     
     if (!carousel) {
         console.error('Services carousel not found!');
@@ -537,20 +489,21 @@ function initServicesCarousel() {
     const totalSlides = cards.length;
     let currentSlide = 0;
     let isTransitioning = false;
+    let resizeTimer;
     
     function getCardWidth() {
         const screenWidth = window.innerWidth;
         if (screenWidth >= 1024) return 400;
         if (screenWidth >= 768) return 350;
-        return 300;
+        return Math.min(300, screenWidth - 80);
     }
     
-    function updateCarousel() {
+    function updateCarousel(animate = true) {
         const cardWidth = getCardWidth();
         const gap = 32;
         const translateX = -currentSlide * (cardWidth + gap);
         
-        carousel.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        carousel.style.transition = animate ? 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
         carousel.style.transform = `translateX(${translateX}px)`;
         
         // Update indicators
@@ -558,43 +511,40 @@ function initServicesCarousel() {
             indicator.classList.toggle('active', index === currentSlide);
         });
         
-        console.log('Carousel updated:', { currentSlide, translateX });
+        // Update card widths
+        cards.forEach(card => {
+            card.style.width = `${cardWidth}px`;
+        });
     }
     
     function nextSlide() {
         if (isTransitioning) return;
         
         isTransitioning = true;
-        
-        // Simple infinite loop
         currentSlide = (currentSlide + 1) % totalSlides;
         updateCarousel();
         
         setTimeout(() => {
             isTransitioning = false;
         }, 500);
-        
-        console.log('Next slide:', currentSlide);
     }
     
     function prevSlide() {
         if (isTransitioning) return;
         
         isTransitioning = true;
-        
-        // Simple infinite loop
         currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
         updateCarousel();
         
         setTimeout(() => {
             isTransitioning = false;
         }, 500);
-        
-        console.log('Prev slide:', currentSlide);
     }
     
     function goToSlide(index) {
-        if (isTransitioning) return;
+        if (isTransitioning || index === currentSlide) return;
+        
+        isTransitioning = true;
         currentSlide = index;
         updateCarousel();
         
@@ -604,21 +554,27 @@ function initServicesCarousel() {
     }
     
     // Initialize
-    updateCarousel();
+    updateCarousel(false);
     
     // Event listeners
     if (nextBtn) {
         nextBtn.addEventListener('click', nextSlide);
-        console.log('Next button initialized');
     }
     
     if (prevBtn) {
         prevBtn.addEventListener('click', prevSlide);
-        console.log('Prev button initialized');
     }
     
     indicators.forEach((indicator, index) => {
         indicator.addEventListener('click', () => goToSlide(index));
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            updateCarousel(false);
+        }, 150);
     });
     
     // Touch/swipe support
@@ -652,24 +608,8 @@ function initServicesCarousel() {
         }
     });
     
-    // Auto-play
-    let autoPlayInterval;
-    
-    function startAutoPlay() {
-        autoPlayInterval = setInterval(nextSlide, 5000);
-    }
-    
-    function stopAutoPlay() {
-        clearInterval(autoPlayInterval);
-    }
-    
-    // Start autoplay
-    startAutoPlay();
-    
-    // Pause on hover/touch
-    carousel.addEventListener('mouseenter', stopAutoPlay);
-    carousel.addEventListener('mouseleave', startAutoPlay);
-    carousel.addEventListener('touchstart', stopAutoPlay);
+    // Auto-play disabled - manual control only
+    // Users can control carousel through touch, swipe, or buttons
     
     // Responsive adjustments
     function handleResize() {
@@ -677,6 +617,8 @@ function initServicesCarousel() {
     }
     
     window.addEventListener('resize', debounce(handleResize, 250));
+}
+
 // Simplified Infinite Carousel for Cases
 function initCasesCarousel() {
     const carousel = document.getElementById('casesCarousel');
@@ -790,24 +732,8 @@ function initCasesCarousel() {
         }
     });
     
-    // Auto-play
-    let autoPlayInterval;
-    
-    function startAutoPlay() {
-        autoPlayInterval = setInterval(nextSlide, 6000);
-    }
-    
-    function stopAutoPlay() {
-        clearInterval(autoPlayInterval);
-    }
-    
-    // Start autoplay
-    startAutoPlay();
-    
-    // Pause on hover/touch
-    carousel.addEventListener('mouseenter', stopAutoPlay);
-    carousel.addEventListener('mouseleave', startAutoPlay);
-    carousel.addEventListener('touchstart', stopAutoPlay);
+    // Auto-play disabled - manual control only
+    // Users can control carousel through touch, swipe, or buttons
     
     // Responsive adjustments
     function handleResize() {
@@ -852,4 +778,17 @@ if ('performance' in window) {
             console.log('Page load time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
         }, 0);
     });
+}
+
+// Utility function for debouncing
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }

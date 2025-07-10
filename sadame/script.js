@@ -113,9 +113,23 @@ function initLogoScrollToTop() {
             
             // Ensure touch events are not blocked after click (mobile fix)
             setTimeout(() => {
+                // Complete reset of all scroll-blocking styles
                 document.body.style.touchAction = '';
                 document.documentElement.style.touchAction = '';
-                console.log('📱 Touch events restored');
+                document.body.style.overflow = '';
+                document.documentElement.style.overflow = '';
+                document.body.style.overflowY = '';
+                document.documentElement.style.overflowY = '';
+                document.body.style.pointerEvents = '';
+                document.documentElement.style.pointerEvents = '';
+                document.body.style.userSelect = '';
+                document.documentElement.style.userSelect = '';
+                
+                // Force scroll restoration
+                document.body.style.overflow = 'auto';
+                document.documentElement.style.overflow = 'auto';
+                
+                console.log('📱 Complete scroll restoration applied');
             }, 500);
         });
     }
@@ -127,6 +141,17 @@ function createParticleBurst(element, isClick = false) {
     const isSmallMobile = window.innerWidth <= 480;
     if (isSmallMobile) {
         console.log('📱 Small mobile detected - particle effects disabled');
+        
+        // Even on small mobile, ensure scroll is working after click
+        if (isClick) {
+            setTimeout(() => {
+                document.body.style.overflow = 'auto';
+                document.documentElement.style.overflow = 'auto';
+                document.body.style.touchAction = '';
+                document.documentElement.style.touchAction = '';
+                console.log('📱 Mobile scroll restoration applied even without particles');
+            }, 500);
+        }
         return;
     }
     
@@ -229,9 +254,20 @@ function createParticleBurst(element, isClick = false) {
             // Ensure touch events are fully restored (mobile fix)
             document.body.style.touchAction = '';
             document.documentElement.style.touchAction = '';
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+            document.body.style.overflowY = '';
+            document.documentElement.style.overflowY = '';
             document.body.style.pointerEvents = '';
             document.documentElement.style.pointerEvents = '';
-            console.log('📱 Touch events fully restored after cleanup');
+            document.body.style.userSelect = '';
+            document.documentElement.style.userSelect = '';
+            
+            // Force scroll restoration
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+            
+            console.log('📱 Complete scroll restoration applied after cleanup');
         }
     }, maxDuration);
 }

@@ -667,44 +667,313 @@ function initMobileMenu() {
 // Contact form handler
 function initFormHandler() {
     const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = submitBtn.querySelector('.btn__text');
+    const btnLoading = submitBtn.querySelector('.btn__loading');
+    const formFeedback = document.getElementById('formFeedback');
+    const formSuccess = document.getElementById('formSuccess');
+    const formError = document.getElementById('formError');
+    const retryBtn = document.getElementById('retryBtn');
+    
+    // Add validation icons to form groups
+    addValidationIcons();
+    
+    // Real-time validation
+    initRealTimeValidation();
     
     if (form) {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Get form data
             const formData = new FormData(form);
             const data = Object.fromEntries(formData);
             
-            // Basic validation
-            if (!validateForm(data)) {
+            // Validate form
+            if (!validateFormEnhanced(data)) {
                 return;
             }
             
-            // Disable submit button
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.disabled = true;
-            submitBtn.textContent = '送信中...';
+            // Get reCAPTCHA token
+            let recaptchaToken = null;
+            try {
+                recaptchaToken = await getReCaptchaToken();
+            } catch (error) {
+                console.error('reCAPTCHA error:', error);
+                showFormError('認証に失敗しました。ページを再読み込みしてお試しください。');
+                return;
+            }
             
-            // Simulate form submission (replace with actual endpoint)
-            setTimeout(() => {
-                // Show success message
-                showNotification('お問い合わせを受け付けました。24時間以内にご返信いたします。', 'success');
+            // Show loading state
+            showLoadingState();
+            
+            try {
+                // Prepare data for submission
+                const submissionData = {
+                    ...data,
+                    recaptcha_token: recaptchaToken,
+                    timestamp: new Date().toISOString(),
+                    user_agent: navigator.userAgent
+                };
                 
-                // Reset form
-                form.reset();
+                // Submit form (placeholder for API integration)
+                const response = await submitFormData(submissionData);
                 
-                // Re-enable button
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalText;
+                if (response.success) {
+                    showFormSuccess();
+                    form.reset();
+                    clearValidationStates();
+                } else {
+                    showFormError(response.message || '送信に失敗しました。');
+                }
                 
-                // In real implementation, you would send data to your backend
-                console.log('Form data:', data);
-                
-            }, 2000);
+            } catch (error) {
+                console.error('Form submission error:', error);
+                showFormError('通信エラーが発生しました。しばらく時間をおいて再度お試しください。');
+            } finally {
+                hideLoadingState();
+            }
         });
+        
+        // Retry button functionality
+        if (retryBtn) {
+            retryBtn.addEventListener('click', () => {
+                hideFormFeedback();
+            });
+        }
     }
+}
+
+// Add validation icons to form groups
+function addValidationIcons() {
+    const formGroups = document.querySelectorAll('.form__group');
+    formGroups.forEach(group => {
+        const input = group.querySelector('.form__input, .form__select, .form__textarea');
+        if (input) {
+            const icon = document.createElement('span');
+            icon.className = 'form__validation-icon';
+            icon.innerHTML = '✓';
+            group.appendChild(icon);
+            
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'form__error-message';
+            group.appendChild(errorMsg);
+        }
+    });
+}
+
+// Real-time validation
+function initRealTimeValidation() {
+    const inputs = document.querySelectorAll('.form__input, .form__select, .form__textarea');
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', () => validateField(input));
+        input.addEventListener('input', () => {
+            if (input.classList.contains('invalid')) {
+                validateField(input);
+            }
+        });
+    });
+}
+
+// Validate individual field
+function validateField(field) {
+    const group = field.closest('.form__group');
+    const icon = group.querySelector('.form__validation-icon');
+    const errorMsg = group.querySelector('.form__error-message');
+    let isValid = true;
+    let message = '';
+    
+    switch(field.type) {
+        case 'text':
+            if (field.name === 'company' || field.name === 'name') {
+                if (!field.value.trim() || field.value.trim().length < 2) {
+                    isValid = false;
+                    message = field.name === 'company' ? '会社名を入力してください' : 'お名前を入力してください';
+                }
+            }
+            break;
+        case 'email':
+            if (!field.value.trim()) {
+                isValid = false;
+                message = 'メールアドレスを入力してください';
+            } else if (!isValidEmail(field.value)) {
+                isValid = false;
+                message = '有効なメールアドレスを入力してください';
+            }
+            break;
+        case 'tel':
+            if (field.value.trim() && !isValidPhone(field.value)) {
+                isValid = false;
+                message = '有効な電話番号を入力してください';
+            }
+            break;
+        default:
+            if (field.hasAttribute('required') && !field.value.trim()) {
+                isValid = false;
+                message = 'この項目は必須です';
+            }
+    }
+    
+    // Update UI - 正常時は通常のスタイルを維持、エラー時のみ特別表示
+    if (isValid) {
+        field.classList.remove('invalid');
+        field.classList.remove('valid'); // 通常のスタイルを維持
+        icon.classList.remove('invalid');
+        icon.classList.remove('valid'); // アイコンも非表示
+        icon.innerHTML = '';
+        errorMsg.textContent = '';
+        errorMsg.classList.remove('show');
+    } else {
+        field.classList.remove('valid');
+        field.classList.add('invalid');
+        icon.classList.remove('valid');
+        icon.classList.add('invalid');
+        icon.innerHTML = '✗';
+        errorMsg.textContent = message;
+        errorMsg.classList.add('show');
+    }
+    
+    return isValid;
+}
+
+// Enhanced form validation
+function validateFormEnhanced(data) {
+    let isValid = true;
+    const form = document.getElementById('contactForm');
+    const inputs = form.querySelectorAll('.form__input, .form__select, .form__textarea');
+    
+    inputs.forEach(input => {
+        if (!validateField(input)) {
+            isValid = false;
+        }
+    });
+    
+    // Scroll to first invalid field
+    if (!isValid) {
+        const firstInvalid = form.querySelector('.invalid');
+        if (firstInvalid) {
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstInvalid.focus();
+        }
+    }
+    
+    return isValid;
+}
+
+// Phone validation
+function isValidPhone(phone) {
+    const phoneRegex = /^[\d\-\(\)\+\s]{10,15}$/;
+    return phoneRegex.test(phone.replace(/\s/g, ''));
+}
+
+// Get reCAPTCHA token
+async function getReCaptchaToken() {
+    return new Promise((resolve, reject) => {
+        if (typeof grecaptcha === 'undefined') {
+            reject(new Error('reCAPTCHA not loaded'));
+            return;
+        }
+        
+        grecaptcha.ready(() => {
+            grecaptcha.execute('RECAPTCHA_SITE_KEY_PLACEHOLDER', { action: 'contact_form' })
+                .then(token => resolve(token))
+                .catch(error => reject(error));
+        });
+    });
+}
+
+// Submit form data (placeholder for API integration)
+async function submitFormData(data) {
+    // Simulate API call
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            // In real implementation, send to your backend
+            console.log('Submitted data:', data);
+            
+            // Simulate random success/failure for testing
+            const success = Math.random() > 0.1; // 90% success rate for testing
+            
+            resolve({
+                success: success,
+                message: success ? 'お問い合わせを受け付けました' : 'サーバーエラーが発生しました'
+            });
+        }, 1500);
+    });
+}
+
+// UI state management
+function showLoadingState() {
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = submitBtn.querySelector('.btn__text');
+    const btnLoading = submitBtn.querySelector('.btn__loading');
+    
+    submitBtn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'flex';
+}
+
+function hideLoadingState() {
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = submitBtn.querySelector('.btn__text');
+    const btnLoading = submitBtn.querySelector('.btn__loading');
+    
+    submitBtn.disabled = false;
+    btnText.style.display = 'block';
+    btnLoading.style.display = 'none';
+}
+
+function showFormSuccess() {
+    const formFeedback = document.getElementById('formFeedback');
+    const formSuccess = document.getElementById('formSuccess');
+    const formError = document.getElementById('formError');
+    
+    formError.style.display = 'none';
+    formSuccess.style.display = 'block';
+    formFeedback.style.display = 'block';
+    
+    // Scroll to feedback
+    formFeedback.scrollIntoView({ behavior: 'smooth' });
+}
+
+function showFormError(message) {
+    const formFeedback = document.getElementById('formFeedback');
+    const formSuccess = document.getElementById('formSuccess');
+    const formError = document.getElementById('formError');
+    const errorMessage = document.getElementById('errorMessage');
+    
+    formSuccess.style.display = 'none';
+    errorMessage.textContent = message;
+    formError.style.display = 'block';
+    formFeedback.style.display = 'block';
+    
+    // Scroll to feedback
+    formFeedback.scrollIntoView({ behavior: 'smooth' });
+}
+
+function hideFormFeedback() {
+    const formFeedback = document.getElementById('formFeedback');
+    formFeedback.style.display = 'none';
+}
+
+function clearValidationStates() {
+    const inputs = document.querySelectorAll('.form__input, .form__select, .form__textarea');
+    const icons = document.querySelectorAll('.form__validation-icon');
+    const errorMsgs = document.querySelectorAll('.form__error-message');
+    
+    inputs.forEach(input => {
+        input.classList.remove('valid', 'invalid');
+    });
+    
+    icons.forEach(icon => {
+        icon.classList.remove('valid', 'invalid');
+        icon.innerHTML = ''; // アイコンをクリア
+    });
+    
+    errorMsgs.forEach(msg => {
+        msg.classList.remove('show');
+        msg.textContent = '';
+    });
 }
 
 // Form validation

@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>生成AIで事業を加速する | 株式会社さだめ</title>
     <meta name="description" content="生成AIを活用した事業支援・顧問サービスで、アイデアから実装まで最速4週間納品。SNS運用、LP制作、LINE施策まで一気通貫でサポートします。">
     
@@ -26,25 +26,35 @@
     <header class="header">
         <div class="container">
             <div class="header__inner">
-                <div class="header__logo">
-                    <h1>株式会社さだめ</h1>
-                </div>
-                <nav class="header__nav" id="headerNav">
-                    <ul class="nav-list">
-                        <li><a href="#services">サービス</a></li>
-                        <li><a href="#results">実績</a></li>
-                        <li><a href="#cases">事例</a></li>
-                        <li><a href="#about">会社概要</a></li>
-                        <li><a href="#contact" class="btn btn--outline btn--sm">お問い合わせ</a></li>
-                    </ul>
-                </nav>
                 <button class="header__toggle" id="headerToggle">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
+                
+                <div class="header__logo">
+                    <a href="#hero" class="logo-link" id="logoLink">
+                        <img src="image/logo_white.png" alt="株式会社さだめ" class="logo-img" id="logoImg" style="height: 75px !important; width: auto !important; max-width: 400px !important; transform: none !important;">
+                    </a>
+                </div>
+                
+                <a href="#contact" class="header__contact-btn">Contact</a>
+                
+                <nav class="header__nav" id="headerNav">
+                    <button class="nav-close" id="navClose">
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <ul class="nav-list">
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#results">Results</a></li>
+                        <li><a href="#cases">Cases</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
+        <div class="mobile-overlay" id="mobileOverlay"></div>
     </header>
 
     <!-- Hero Section -->
@@ -65,12 +75,11 @@
                         <span class="hero__title-line hero__title-line--highlight">実務を加速</span>
                     </h1>
                     <p class="hero__subtitle">
-                        アイデアから実装まで、最速4週間納品。<br>
-                        TikTok運用からLP制作まで一気通貫サポート。
+                        アイデアから実装まで、伴走して支援。<br>
+                        LP制作から社内DXまで一気通貫サポート。
                     </p>
                     <div class="hero__cta">
                         <a href="#contact" class="btn btn--primary btn--lg">無料相談を予約する</a>
-                        <a href="#services" class="btn btn--outline btn--lg">サービス詳細</a>
                     </div>
                     <div class="hero__metrics">
                         <div class="metric">
@@ -82,8 +91,8 @@
                             <div class="metric__label">LP初稿納品</div>
                         </div>
                         <div class="metric">
-                            <div class="metric__value">20K+</div>
-                            <div class="metric__label">LINE友だち</div>
+                            <div class="metric__value">10倍</div>
+                            <div class="metric__label">売上向上実績</div>
                         </div>
                     </div>
                     <div class="hero__scroll-indicator">
@@ -103,45 +112,45 @@
     <section class="services section section-snap" id="services" data-section="services">
         <div class="container">
             <div class="section__header">
-                <h2 class="section__title">7つのサービスで<br>ビジネスを総合支援</h2>
-                <p class="section__subtitle">生成AIを活用した効率的なソリューションで、お客様のビジネス成長をサポートします</p>
+                <h2 class="section__title animate-item">7つのサービスで<br>ビジネスを総合支援</h2>
+                <p class="section__subtitle animate-item">生成AIを活用した効率的なソリューションで、お客様のビジネス成長をサポートします</p>
             </div>
             <div class="services__carousel-container">
                 <div class="services__carousel" id="servicesCarousel">
-                    <div class="service-card service-card--featured">
+                    <div class="service-card service-card--featured animate-item">
                         <div class="service-card__icon">🤖</div>
                         <h3 class="service-card__title">AI顧問サービス</h3>
                         <p class="service-card__description">ツール選定から業務フロー実装まで伴走。12種業務で平均70%の工数削減を実現。</p>
                         <div class="service-card__kpi">平均70%工数削減</div>
                     </div>
-                    <div class="service-card">
+                    <div class="service-card animate-item">
                         <div class="service-card__icon">📋</div>
                         <h3 class="service-card__title">事業計画策定</h3>
                         <p class="service-card__description">AIを活用した市場分析と戦略立案で、実現可能性の高い事業計画を作成。</p>
                     </div>
-                    <div class="service-card">
+                    <div class="service-card animate-item">
                         <div class="service-card__icon">📱</div>
                         <h3 class="service-card__title">SNS運用</h3>
                         <p class="service-card__description">TikTok・Instagram等のコンテンツ企画から運用まで、AI活用で効率的に実施。</p>
                     </div>
-                    <div class="service-card">
+                    <div class="service-card animate-item">
                         <div class="service-card__icon">💻</div>
                         <h3 class="service-card__title">LP・Web制作</h3>
                         <p class="service-card__description">企画・デザイン・コーディングをAI支援で高速化。3営業日で初稿納品。</p>
                         <div class="service-card__kpi">3営業日納品</div>
                     </div>
-                    <div class="service-card">
+                    <div class="service-card animate-item">
                         <div class="service-card__icon">💬</div>
                         <h3 class="service-card__title">LINE施策</h3>
                         <p class="service-card__description">スタンプラリーや予約システム等の独自アプリ開発。友だち20,000人超の実績。</p>
                         <div class="service-card__kpi">友だち20K+</div>
                     </div>
-                    <div class="service-card">
+                    <div class="service-card animate-item">
                         <div class="service-card__icon">⚙️</div>
                         <h3 class="service-card__title">開発支援</h3>
                         <p class="service-card__description">AIをフル活用したスピーディーな開発で、一般発注より短期間での納品が可能。</p>
                     </div>
-                    <div class="service-card">
+                    <div class="service-card animate-item">
                         <div class="service-card__icon">📚</div>
                         <h3 class="service-card__title">教育・研修</h3>
                         <p class="service-card__description">AI活用の実践的なノウハウを、企業研修やワークショップで提供。</p>
@@ -168,31 +177,31 @@
     <section class="kpi-highlights section section--dark section-snap" id="results" data-section="results">
         <div class="container">
             <div class="section__header">
-                <h2 class="section__title">数字で見る成果</h2>
-                <p class="section__subtitle">生成AI活用による具体的な効果をご覧ください</p>
+                <h2 class="section__title animate-item">数字で見る成果</h2>
+                <p class="section__subtitle animate-item">生成AI活用による具体的な効果をご覧ください</p>
             </div>
             <div class="kpi-grid">
-                <div class="kpi-item">
+                <div class="kpi-item animate-item">
                     <div class="kpi-item__category">業務効率化</div>
                     <div class="kpi-item__value" data-count="75">0%</div>
                     <div class="kpi-item__label">ECサイト顧客対応</div>
                     <div class="kpi-item__detail">2h/日 → 30m/日</div>
                 </div>
-                <div class="kpi-item">
+                <div class="kpi-item animate-item">
                     <div class="kpi-item__category">コンテンツ制作</div>
                     <div class="kpi-item__value" data-count="60">0%</div>
                     <div class="kpi-item__label">動画→記事変換</div>
                     <div class="kpi-item__detail">5h/本 → 2h/本</div>
                 </div>
-                <div class="kpi-item">
+                <div class="kpi-item animate-item">
                     <div class="kpi-item__category">マーケティング</div>
                     <div class="kpi-item__value" data-count="83">0%</div>
                     <div class="kpi-item__label">広告クリエイティブ</div>
                     <div class="kpi-item__detail">30m/本 → 5m/本</div>
                 </div>
-                <div class="kpi-item">
+                <div class="kpi-item animate-item">
                     <div class="kpi-item__category">Web制作</div>
-                    <div class="kpi-item__value" data-count="90">0</div>
+                    <div class="kpi-item__value" data-count="90">0点</div>
                     <div class="kpi-item__label">Core Web Vitals</div>
                     <div class="kpi-item__detail">パフォーマンススコア</div>
                 </div>
@@ -204,12 +213,12 @@
     <section class="case-studies section section-snap" id="cases" data-section="cases">
         <div class="container">
             <div class="section__header">
-                <h2 class="section__title">制作事例</h2>
-                <p class="section__subtitle">多様な業界での実績をご紹介します</p>
+                <h2 class="section__title animate-item">制作事例</h2>
+                <p class="section__subtitle animate-item">多様な業界での実績をご紹介します</p>
             </div>
             <div class="cases-carousel-container">
                 <div class="cases-carousel" id="casesCarousel">
-                    <div class="case-card">
+                    <div class="case-card animate-item">
                         <div class="case-card__image">
                             <img src="assets/case-ijinvlogs.jpg" alt="偉人vlogs" loading="lazy">
                         </div>
@@ -223,7 +232,7 @@
                             <a href="https://ijinvlogs.link" class="case-card__link" target="_blank">サイトを見る</a>
                         </div>
                     </div>
-                    <div class="case-card">
+                    <div class="case-card animate-item">
                         <div class="case-card__image">
                             <img src="assets/case-line-stamp.jpg" alt="LINEスタンプラリー" loading="lazy">
                         </div>
@@ -236,7 +245,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="case-card">
+                    <div class="case-card animate-item">
                         <div class="case-card__image">
                             <img src="assets/case-pitch-timer.jpg" alt="ビジネスピッチタイマー" loading="lazy">
                         </div>
@@ -263,7 +272,7 @@
     <section class="about section section--light section-snap" id="about" data-section="about">
         <div class="container">
             <div class="about__inner">
-                <div class="about__content">
+                <div class="about__content animate-item">
                     <h2 class="section__title">代表メッセージ</h2>
                     <p class="about__text">
                         生成AIの登場により、ビジネスの可能性は大きく広がりました。<br>
@@ -278,11 +287,6 @@
                         <p>TikTok: @sogashacho</p>
                     </div>
                 </div>
-                <div class="about__visual">
-                    <div class="about__image">
-                        <img src="assets/profile.jpg" alt="代表取締役 曽我" loading="lazy">
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -292,13 +296,13 @@
         <div class="container">
             <div class="contact__inner">
                 <div class="contact__content">
-                    <h2 class="section__title">お問い合わせ</h2>
-                    <p class="section__subtitle">
+                    <h2 class="section__title animate-item">お問い合わせ</h2>
+                    <p class="section__subtitle animate-item">
                         まずは無料相談から。<br>
                         お客様のビジネス課題をお聞かせください。
                     </p>
                 </div>
-                <div class="contact__form">
+                <div class="contact__form animate-item">
                     <form id="contactForm" class="form">
                         <div class="form__grid">
                             <div class="form__group">

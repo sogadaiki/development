@@ -1,0 +1,16 @@
+{
+  "projectName": "sadame-website",
+  "permissions": {
+    "bash": {
+      "requireConfirmation": [
+        "git push --force",
+        "npm publish",
+        "rm -rf dist",
+        "rm -rf build"
+      ]
+    }
+  },
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

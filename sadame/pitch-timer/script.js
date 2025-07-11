@@ -9,6 +9,9 @@ const timerCanvas = document.getElementById('timer-canvas');
 const ctx = timerCanvas.getContext('2d');
 const currentPitchTimerContainer = document.querySelector('.current-pitch-timer');
 const intervalDisplay = document.getElementById('interval-display');
+const customTimeInput = document.getElementById('custom-time-input');
+const customMinutesInput = document.getElementById('custom-minutes');
+const customSecondsInput = document.getElementById('custom-seconds');
 
 let currentPitchTimer;
 let intervalCountdownTimer;
@@ -20,10 +23,10 @@ let totalPresenters;
 let selectedPitchTime;
 
 // Audio for time up, start, 30-second and 10-second warnings
-const timeUpAudio = new Audio('voice/end.mp3'); // Timer end sound
-const startAudio = new Audio('voice/start.mp3');
-const warning30Audio = new Audio('voice/30.mp3'); // 30-second warning sound
-const warning10Audio = new Audio('voice/10.mp3'); // 10-second warning sound
+const timeUpAudio = new Audio('pitch-timer/voice/end.mp3'); // Timer end sound
+const startAudio = new Audio('pitch-timer/voice/start.mp3');
+const warning30Audio = new Audio('pitch-timer/voice/30.mp3'); // 30-second warning sound
+const warning10Audio = new Audio('pitch-timer/voice/10.mp3'); // 10-second warning sound
 
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
@@ -241,8 +244,25 @@ function resetTimers() {
     resetButtonState();
 }
 
+function getCustomTime() {
+    const minutes = parseInt(customMinutesInput.value) || 0;
+    const seconds = parseInt(customSecondsInput.value) || 0;
+    console.log('Custom time:', minutes, 'minutes,', seconds, 'seconds'); // Debug log
+    return minutes * 60 + seconds;
+}
+
 function initializeTimers() {
-    selectedPitchTime = parseInt(pitchTimeSelect.value);
+    if (pitchTimeSelect.value === 'custom') {
+        selectedPitchTime = getCustomTime();
+        // Minimum 1 second
+        if (selectedPitchTime < 1) {
+            selectedPitchTime = 1;
+        }
+        console.log('Using custom time:', selectedPitchTime, 'seconds'); // Debug log
+    } else {
+        selectedPitchTime = parseInt(pitchTimeSelect.value);
+        console.log('Using preset time:', selectedPitchTime, 'seconds'); // Debug log
+    }
     totalPresenters = parseInt(numPresentersSelect.value);
     currentPitchTimeLeft = selectedPitchTime;
     currentPresenterIndex = 0;
@@ -258,7 +278,49 @@ function resetButtonState() {
 }
 
 // Event Listeners
-pitchTimeSelect.addEventListener('change', initializeTimers);
+pitchTimeSelect.addEventListener('change', function() {
+    if (pitchTimeSelect.value === 'custom') {
+        customTimeInput.style.display = 'flex';
+        // Ensure custom inputs have valid values
+        if (!customMinutesInput.value || customMinutesInput.value === '') {
+            customMinutesInput.value = '2';
+        }
+        if (!customSecondsInput.value || customSecondsInput.value === '') {
+            customSecondsInput.value = '0';
+        }
+    } else {
+        customTimeInput.style.display = 'none';
+    }
+    initializeTimers();
+});
+
+customMinutesInput.addEventListener('input', function() {
+    // Validate minutes input
+    const minutes = parseInt(this.value);
+    if (isNaN(minutes) || minutes < 0) {
+        this.value = 0;
+    } else if (minutes > 59) {
+        this.value = 59;
+    }
+    
+    if (pitchTimeSelect.value === 'custom') {
+        initializeTimers();
+    }
+});
+
+customSecondsInput.addEventListener('input', function() {
+    // Validate seconds input
+    const seconds = parseInt(this.value);
+    if (isNaN(seconds) || seconds < 0) {
+        this.value = 0;
+    } else if (seconds > 59) {
+        this.value = 59;
+    }
+    
+    if (pitchTimeSelect.value === 'custom') {
+        initializeTimers();
+    }
+});
 numPresentersSelect.addEventListener('change', initializeTimers);
 startButton.addEventListener('click', startTimers);
 pauseButton.addEventListener('click', pauseTimers);

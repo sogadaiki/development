@@ -1,1 +1,9 @@
 pitch-timer/voice/*.mp3
+
+# Note記事（プライベートコンテンツ）
+note-articles/
+!note-articles/README.md
+!note-articles/thumbnail-guide.md
+!note-articles/thumbnail-prompt-generator.md
+!note-articles/advanced-thumbnail-prompt.md
+!note-articles/thumbnail-success-template.md

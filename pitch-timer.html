@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ピッチタイマー - Business Pitch Timer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .settings {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .setting-card {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .setting-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .setting-label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .preset-btn {
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .preset-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .preset-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .custom-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .custom-input input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .custom-input input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .timer-display {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .presenter-info {
+            margin-bottom: 20px;
+        }
+
+        .presenter-number {
+            font-size: 1.5rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .timer-circle {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 20px;
+            position: relative;
+            border-radius: 50%;
+            background: conic-gradient(#667eea 0deg, #e2e8f0 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
+        }
+
+        .timer-circle::before {
+            content: '';
+            position: absolute;
+            inset: 20px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-text {
+            position: relative;
+            z-index: 1;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4a5568;
+        }
+
+        .timer-label {
+            font-size: 1.2rem;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+
+        .interval-display {
+            background: #fff5f5;
+            border: 2px solid #fed7d7;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            display: none;
+        }
+
+        .interval-display.show {
+            display: block;
+        }
+
+        .interval-title {
+            font-size: 1.3rem;
+            color: #e53e3e;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .interval-timer {
+            font-size: 2rem;
+            color: #e53e3e;
+            font-weight: 700;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .start-btn {
+            background: #48bb78;
+            color: white;
+        }
+
+        .start-btn:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+
+        .pause-btn {
+            background: #ed8936;
+            color: white;
+        }
+
+        .pause-btn:hover {
+            background: #dd6b20;
+            transform: translateY(-2px);
+        }
+
+        .reset-btn {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+        }
+
+        .next-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .next-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .warning {
+            animation: pulse 0.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        .alert {
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .settings {
+                grid-template-columns: 1fr;
+            }
+
+            .timer-circle {
+                width: 250px;
+                height: 250px;
+            }
+
+            .timer-text {
+                font-size: 2.5rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .control-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .timer-circle {
+                width: 200px;
+                height: 200px;
+            }
+
+            .timer-text {
+                font-size: 2rem;
+            }
+
+            .preset-buttons {
+                justify-content: center;
+            }
+
+            .preset-btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 ピッチタイマー</h1>
+            <p>ビジネスプレゼンテーション用タイマー</p>
+        </div>
+
+        <div class="settings">
+            <div class="setting-card">
+                <div class="setting-label">⏰ プレゼン時間</div>
+                <div class="preset-buttons">
+                    <button class="preset-btn" data-time="30">30秒</button>
+                    <button class="preset-btn" data-time="60">60秒</button>
+                    <button class="preset-btn active" data-time="90">90秒</button>
+                    <button class="preset-btn" data-time="120">120秒</button>
+                    <button class="preset-btn" data-time="150">150秒</button>
+                    <button class="preset-btn" data-time="180">180秒</button>
+                </div>
+                <div class="custom-input">
+                    <input type="number" id="custom-time" placeholder="カスタム時間(秒)" min="1" max="3600">
+                    <button class="preset-btn" id="set-custom">設定</button>
+                </div>
+            </div>
+
+            <div class="setting-card">
+                <div class="setting-label">👥 発表者数</div>
+                <div class="custom-input">
+                    <input type="number" id="presenter-count" value="1" min="1" max="20">
+                    <span>人</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="timer-display">
+            <div class="presenter-info">
+                <div class="presenter-number" id="presenter-number">発表者 1</div>
+            </div>
+            
+            <div class="timer-circle" id="timer-circle">
+                <div class="timer-text" id="timer-text">90</div>
+            </div>
+            
+            <div class="timer-label">秒</div>
+        </div>
+
+        <div class="interval-display" id="interval-display">
+            <div class="interval-title">📢 次の発表者まで</div>
+            <div class="interval-timer" id="interval-timer">10</div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn start-btn" id="start-btn">▶️ 開始</button>
+            <button class="control-btn pause-btn" id="pause-btn">⏸️ 一時停止</button>
+            <button class="control-btn next-btn" id="next-btn">⏭️ 次の人</button>
+            <button class="control-btn reset-btn" id="reset-btn">🔄 リセット</button>
+        </div>
+    </div>
+
+    <script>
+        class PitchTimer {
+            constructor() {
+                this.currentTime = 90;
+                this.originalTime = 90;
+                this.currentPresenter = 1;
+                this.totalPresenters = 1;
+                this.isRunning = false;
+                this.isPaused = false;
+                this.isInterval = false;
+                this.intervalTime = 10;
+                this.timer = null;
+                this.audioContext = null;
+                
+                this.warningAlerts = { 30: false, 10: false };
+                
+                this.initializeElements();
+                this.setupEventListeners();
+                this.initializeAudio();
+                this.updateDisplay();
+            }
+
+            initializeElements() {
+                this.timerText = document.getElementById('timer-text');
+                this.timerCircle = document.getElementById('timer-circle');
+                this.presenterNumber = document.getElementById('presenter-number');
+                this.intervalDisplay = document.getElementById('interval-display');
+                this.intervalTimer = document.getElementById('interval-timer');
+                this.startBtn = document.getElementById('start-btn');
+                this.pauseBtn = document.getElementById('pause-btn');
+                this.nextBtn = document.getElementById('next-btn');
+                this.resetBtn = document.getElementById('reset-btn');
+                this.presenterCountInput = document.getElementById('presenter-count');
+                this.customTimeInput = document.getElementById('custom-time');
+                this.setCustomBtn = document.getElementById('set-custom');
+            }
+
+            setupEventListeners() {
+                // プリセットボタン
+                document.querySelectorAll('.preset-btn[data-time]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.preset-btn[data-time]').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.setTime(parseInt(btn.dataset.time));
+                    });
+                });
+
+                // カスタム時間設定
+                this.setCustomBtn.addEventListener('click', () => {
+                    const customTime = parseInt(this.customTimeInput.value);
+                    if (customTime && customTime > 0) {
+                        document.querySelectorAll('.preset-btn[data-time]').forEach(b => b.classList.remove('active'));
+                        this.setTime(customTime);
+                    }
+                });
+
+                // 発表者数変更
+                this.presenterCountInput.addEventListener('input', () => {
+                    this.totalPresenters = parseInt(this.presenterCountInput.value);
+                    this.updateDisplay();
+                });
+
+                // 制御ボタン
+                this.startBtn.addEventListener('click', () => this.start());
+                this.pauseBtn.addEventListener('click', () => this.pause());
+                this.nextBtn.addEventListener('click', () => this.nextPresenter());
+                this.resetBtn.addEventListener('click', () => this.reset());
+
+                // キーボードショートカット
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.isRunning ? this.pause() : this.start();
+                    }
+                });
+            }
+
+            initializeAudio() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (error) {
+                    console.log('Web Audio API not supported');
+                }
+            }
+
+            playBeep(frequency = 800, duration = 200) {
+                if (!this.audioContext) return;
+                
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                oscillator.frequency.value = frequency;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration / 1000);
+                
+                oscillator.start(this.audioContext.currentTime);
+                oscillator.stop(this.audioContext.currentTime + duration / 1000);
+            }
+
+            setTime(seconds) {
+                this.currentTime = seconds;
+                this.originalTime = seconds;
+                this.warningAlerts = { 30: false, 10: false };
+                this.updateDisplay();
+            }
+
+            start() {
+                if (this.audioContext && this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
+                }
+                
+                this.isRunning = true;
+                this.isPaused = false;
+                this.startBtn.textContent = '⏸️ 一時停止';
+                this.startBtn.onclick = () => this.pause();
+                
+                this.timer = setInterval(() => {
+                    this.tick();
+                }, 1000);
+            }
+
+            pause() {
+                this.isRunning = false;
+                this.isPaused = true;
+                this.startBtn.textContent = '▶️ 再開';
+                this.startBtn.onclick = () => this.start();
+                
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+            }
+
+            reset() {
+                this.isRunning = false;
+                this.isPaused = false;
+                this.isInterval = false;
+                this.currentPresenter = 1;
+                this.currentTime = this.originalTime;
+                this.intervalTime = 10;
+                this.warningAlerts = { 30: false, 10: false };
+                
+                this.startBtn.textContent = '▶️ 開始';
+                this.startBtn.onclick = () => this.start();
+                
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+                
+                this.updateDisplay();
+                this.timerCircle.classList.remove('warning', 'alert');
+            }
+
+            nextPresenter() {
+                if (this.currentPresenter < this.totalPresenters) {
+                    this.currentPresenter++;
+                    this.currentTime = this.originalTime;
+                    this.warningAlerts = { 30: false, 10: false };
+                    this.isInterval = false;
+                    this.intervalTime = 10;
+                    this.updateDisplay();
+                    this.timerCircle.classList.remove('warning', 'alert');
+                }
+            }
+
+            tick() {
+                if (this.isInterval) {
+                    this.intervalTime--;
+                    if (this.intervalTime <= 0) {
+                        this.nextPresenter();
+                        if (this.currentPresenter <= this.totalPresenters) {
+                            this.currentTime = this.originalTime;
+                            this.isInterval = false;
+                            this.intervalTime = 10;
+                        }
+                    }
+                } else {
+                    this.currentTime--;
+                    
+                    // アラーム処理
+                    if (this.currentTime === 30 && !this.warningAlerts[30]) {
+                        this.warningAlerts[30] = true;
+                        this.timerCircle.classList.add('warning');
+                        for (let i = 0; i < 3; i++) {
+                            setTimeout(() => this.playBeep(600, 300), i * 400);
+                        }
+                    }
+                    
+                    if (this.currentTime === 10 && !this.warningAlerts[10]) {
+                        this.warningAlerts[10] = true;
+                        this.timerCircle.classList.add('alert');
+                        for (let i = 0; i < 3; i++) {
+                            setTimeout(() => this.playBeep(800, 200), i * 300);
+                        }
+                    }
+                    
+                    if (this.currentTime <= 0) {
+                        this.currentTime = 0;
+                        this.playBeep(1000, 500);
+                        
+                        if (this.currentPresenter < this.totalPresenters) {
+                            this.isInterval = true;
+                            this.intervalTime = 10;
+                        } else {
+                            this.pause();
+                            alert('🎉 すべての発表が終了しました！');
+                        }
+                    }
+                }
+                
+                this.updateDisplay();
+            }
+
+            updateDisplay() {
+                if (this.isInterval) {
+                    this.intervalDisplay.classList.add('show');
+                    this.intervalTimer.textContent = this.intervalTime;
+                    this.timerCircle.style.display = 'none';
+                } else {
+                    this.intervalDisplay.classList.remove('show');
+                    this.timerCircle.style.display = 'flex';
+                    this.timerText.textContent = this.currentTime;
+                    
+                    // 円形プログレスバーの更新
+                    const progress = (this.originalTime - this.currentTime) / this.originalTime;
+                    const angle = progress * 360;
+                    this.timerCircle.style.background = `conic-gradient(#667eea ${angle}deg, #e2e8f0 ${angle}deg)`;
+                }
+                
+                this.presenterNumber.textContent = `発表者 ${this.currentPresenter}`;
+            }
+        }
+
+        // アプリケーション開始
+        document.addEventListener('DOMContentLoaded', () => {
+            new PitchTimer();
+        });
+    </script>
+</body>
+</html>

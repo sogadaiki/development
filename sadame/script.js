@@ -887,7 +887,10 @@ async function getReCaptchaToken() {
         }
         
         grecaptcha.ready(() => {
-            grecaptcha.execute('RECAPTCHA_SITE_KEY_PLACEHOLDER', { action: 'contact_form' })
+            // サイトキーは公開情報なので、フロントエンドで使用しても安全
+            const siteKey = '6LfaCn8rAAAAAHEyoB0KVEtsXPIm_iSRMZB9gk_v';
+            console.log('Using reCAPTCHA site key:', siteKey);
+            grecaptcha.execute(siteKey, { action: 'contact_form' })
                 .then(token => resolve(token))
                 .catch(error => reject(error));
         });
@@ -896,21 +899,49 @@ async function getReCaptchaToken() {
 
 // Submit form data (placeholder for API integration)
 async function submitFormData(data) {
-    // Simulate API call
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            // In real implementation, send to your backend
-            console.log('Submitted data:', data);
-            
-            // Simulate random success/failure for testing
-            const success = Math.random() > 0.1; // 90% success rate for testing
-            
-            resolve({
-                success: success,
-                message: success ? 'お問い合わせを受け付けました' : 'サーバーエラーが発生しました'
-            });
-        }, 1500);
-    });
+    try {
+        // 本番環境では適切なAPIエンドポイントURLを設定
+        const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3000/api/contact'
+            : '/api/contact';
+        
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+            // HTTPエラーステータスの場合
+            console.error('API Error:', response.status, result);
+            return {
+                success: false,
+                message: result.message || 'サーバーエラーが発生しました'
+            };
+        }
+        
+        return result;
+        
+    } catch (error) {
+        console.error('Network error:', error);
+        
+        // ネットワークエラーの場合
+        if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+            return {
+                success: false,
+                message: 'ネットワークエラーが発生しました。インターネット接続を確認してください。'
+            };
+        }
+        
+        return {
+            success: false,
+            message: '通信エラーが発生しました。しばらく時間をおいて再度お試しください。'
+        };
+    }
 }
 
 // UI state management

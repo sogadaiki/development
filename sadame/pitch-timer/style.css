@@ -158,8 +158,10 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 15px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* 改行を防ぐ */
     align-items: flex-end;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .setting-card {
@@ -837,21 +839,21 @@ h1 {
     }
     
     .settings-row {
-        gap: 8px;
+        gap: 6px;
         justify-content: space-between;
     }
     
     .setting-card {
-        min-width: 120px;
-        max-width: 160px;
-        padding: 8px 10px;
+        min-width: 105px;
+        max-width: 120px;
+        padding: 8px 6px;
         flex: 1;
     }
     
     .sound-card {
-        min-width: 100px;
-        max-width: 140px;
-        flex: 0.8;
+        min-width: 90px;
+        max-width: 105px;
+        flex: 0.85;
     }
     
     .theme-buttons-container {
@@ -944,6 +946,90 @@ h1 {
     }
 }
 
+/* iPhone15 Pro Max向け (430px) */
+@media (max-width: 430px) and (min-width: 394px) {
+    .timer-app-container {
+        padding: 8px;
+        margin: 0.5vh auto;
+    }
+    
+    .settings-row {
+        gap: 5px;
+        justify-content: space-between;
+    }
+    
+    .setting-card {
+        min-width: 110px;
+        max-width: 125px;
+        padding: 7px 5px;
+        flex: 1;
+    }
+    
+    .sound-card {
+        min-width: 100px;
+        max-width: 115px;
+        flex: 0.85;
+    }
+    
+    .setting-label {
+        font-size: 0.65em;
+        margin-bottom: 3px;
+    }
+    
+    .custom-select select {
+        padding: 7px 5px;
+        font-size: 0.8em;
+    }
+    
+    .sound-toggle-btn {
+        padding: 7px 5px;
+        font-size: 0.8em;
+    }
+}
+
+/* iPhone15 Standard向け (393px) */
+@media (max-width: 393px) {
+    .timer-app-container {
+        padding: 8px;
+        margin: 0.5vh auto;
+    }
+    
+    .settings-row {
+        gap: 3px;
+        justify-content: space-between;
+        flex-wrap: nowrap; /* 強制的に1行 */
+    }
+    
+    .setting-card {
+        min-width: 90px;
+        max-width: 105px;
+        padding: 6px 3px;
+        flex: 1 1 auto;
+        overflow: hidden;
+    }
+    
+    .sound-card {
+        min-width: 80px;
+        max-width: 95px;
+        flex: 0.9 1 auto;
+    }
+    
+    .setting-label {
+        font-size: 0.6em;
+        margin-bottom: 3px;
+    }
+    
+    .custom-select select {
+        padding: 6px 4px;
+        font-size: 0.75em;
+    }
+    
+    .sound-toggle-btn {
+        padding: 6px 4px;
+        font-size: 0.75em;
+    }
+}
+
 @media (max-width: 480px) {
     .timer-app-container {
         padding: 8px;
@@ -951,13 +1037,13 @@ h1 {
     }
     
     .settings-row {
-        gap: 6px;
+        gap: 5px;
     }
     
     .setting-card {
         min-width: 100px;
-        max-width: 130px;
-        padding: 6px 8px;
+        max-width: 125px;
+        padding: 6px 6px;
     }
     
     .sound-card {

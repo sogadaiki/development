@@ -12,6 +12,10 @@ const intervalDisplay = document.getElementById('interval-display');
 const customTimeInput = document.getElementById('custom-time-input');
 const customMinutesInput = document.getElementById('custom-minutes');
 const customSecondsInput = document.getElementById('custom-seconds');
+const soundToggleBtn = document.getElementById('sound-toggle');
+const audioPermissionModal = document.getElementById('audio-permission-modal');
+const allowAudioBtn = document.getElementById('allow-audio');
+const denyAudioBtn = document.getElementById('deny-audio');
 
 let currentPitchTimer;
 let intervalCountdownTimer;
@@ -21,12 +25,91 @@ let isPaused = true;
 let currentPresenterIndex = 0;
 let totalPresenters;
 let selectedPitchTime;
+let isSoundEnabled = true; // Sound is enabled by default
+let hasAudioPermission = false; // Track if we have permission
 
 // Audio for time up, start, 30-second and 10-second warnings
 const timeUpAudio = new Audio('pitch-timer/voice/end.mp3'); // Timer end sound
 const startAudio = new Audio('pitch-timer/voice/start.mp3');
 const warning30Audio = new Audio('pitch-timer/voice/30.mp3'); // 30-second warning sound
 const warning10Audio = new Audio('pitch-timer/voice/10.mp3'); // 10-second warning sound
+
+// Preload audio files for mobile compatibility
+timeUpAudio.preload = 'auto';
+startAudio.preload = 'auto';
+warning30Audio.preload = 'auto';
+warning10Audio.preload = 'auto';
+
+// Mobile audio initialization function
+function initializeAudioForMobile() {
+    // Create audio context for mobile support
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) {
+        const audioContext = new AudioContext();
+        
+        // Resume audio context on user interaction
+        if (audioContext.state === 'suspended') {
+            document.addEventListener('click', () => {
+                audioContext.resume();
+            }, { once: true });
+        }
+    }
+    
+    // Preload and unlock audio on first user interaction
+    const unlockAudio = () => {
+        [timeUpAudio, startAudio, warning30Audio, warning10Audio].forEach(audio => {
+            audio.load();
+            // Play and immediately pause to unlock on mobile
+            const promise = audio.play();
+            if (promise !== undefined) {
+                promise.then(() => {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }).catch(() => {
+                    // Ignore errors during unlock attempt
+                });
+            }
+        });
+    };
+    
+    // Add event listeners for first user interaction
+    ['touchstart', 'touchend', 'mousedown', 'click'].forEach(event => {
+        document.addEventListener(event, unlockAudio, { once: true });
+    });
+}
+
+// Check if we should show audio permission modal
+function checkAudioPermission() {
+    // Check localStorage for previous permission
+    const savedPermission = localStorage.getItem('audioPermission');
+    if (savedPermission === 'granted') {
+        hasAudioPermission = true;
+        isSoundEnabled = true;
+    } else if (savedPermission === 'denied') {
+        hasAudioPermission = false;
+        isSoundEnabled = false;
+        updateSoundToggleUI();
+    } else {
+        // First time - show modal
+        audioPermissionModal.style.display = 'flex';
+    }
+}
+
+// Initialize audio for mobile on page load
+initializeAudioForMobile();
+
+// Safe audio play function that handles mobile restrictions
+function playAudioSafely(audio) {
+    if (audio && isSoundEnabled && hasAudioPermission) {
+        const promise = audio.play();
+        if (promise !== undefined) {
+            promise.catch(error => {
+                // Silently handle play errors on mobile
+                console.log('Audio play failed:', error.message);
+            });
+        }
+    }
+}
 
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
@@ -96,7 +179,10 @@ function drawCircle() {
     const themeColors = {
         red: { primary: '#e74c3c', secondary: '#c0392b' },
         blue: { primary: '#3498db', secondary: '#2980b9' },
-        green: { primary: '#27ae60', secondary: '#229954' }
+        green: { primary: '#27ae60', secondary: '#229954' },
+        purple: { primary: '#9b59b6', secondary: '#8e44ad' },
+        orange: { primary: '#e67e22', secondary: '#d35400' },
+        gray: { primary: '#34495e', secondary: '#2c3e50' }
     };
     
     const colors = themeColors[currentTheme] || themeColors.red;
@@ -132,12 +218,12 @@ function updateDisplay() {
 
     // Play warning sound at exactly 30 seconds (but not if it's the initial time)
     if (currentPitchTimeLeft === 30 && currentPitchTimeLeft < selectedPitchTime) {
-        warning30Audio.play();
+        playAudioSafely(warning30Audio);
     }
 
     // Play warning sound at exactly 10 seconds
     if (currentPitchTimeLeft === 10) {
-        warning10Audio.play();
+        playAudioSafely(warning10Audio);
     }
 
     if (currentPitchTimeLeft <= 10 && currentPitchTimeLeft > 0) {
@@ -160,7 +246,7 @@ function startTimers() {
     currentPitchTimer = setInterval(() => {
         if (currentPitchTimeLeft <= 0) {
             clearInterval(currentPitchTimer);
-            timeUpAudio.play();
+            playAudioSafely(timeUpAudio);
             currentPitchTimerContainer.classList.add('time-up-animation');
             
             // Check if this is the last presenter
@@ -195,7 +281,7 @@ function startIntervalCountdown() {
         // So if currentPresenterIndex >= 1, it means we're going to the 2nd presenter or later
         if (intervalTimeLeft === 4) {
             console.log('Current presenter index:', currentPresenterIndex); // Debug log
-            startAudio.play();
+            playAudioSafely(startAudio);
         }
         
         if (intervalTimeLeft <= 0) {
@@ -280,47 +366,55 @@ function resetButtonState() {
 // Event Listeners
 pitchTimeSelect.addEventListener('change', function() {
     if (pitchTimeSelect.value === 'custom') {
-        customTimeInput.style.display = 'flex';
-        // Ensure custom inputs have valid values
-        if (!customMinutesInput.value || customMinutesInput.value === '') {
-            customMinutesInput.value = '2';
-        }
-        if (!customSecondsInput.value || customSecondsInput.value === '') {
-            customSecondsInput.value = '0';
+        if (customTimeInput) {
+            customTimeInput.style.display = 'flex';
+            // Ensure custom inputs have valid values
+            if (customMinutesInput && (!customMinutesInput.value || customMinutesInput.value === '')) {
+                customMinutesInput.value = '0';
+            }
+            if (customSecondsInput && (!customSecondsInput.value || customSecondsInput.value === '')) {
+                customSecondsInput.value = '0';
+            }
         }
     } else {
-        customTimeInput.style.display = 'none';
+        if (customTimeInput) {
+            customTimeInput.style.display = 'none';
+        }
     }
     initializeTimers();
 });
 
-customMinutesInput.addEventListener('input', function() {
-    // Validate minutes input
-    const minutes = parseInt(this.value);
-    if (isNaN(minutes) || minutes < 0) {
-        this.value = 0;
-    } else if (minutes > 59) {
-        this.value = 59;
-    }
-    
-    if (pitchTimeSelect.value === 'custom') {
-        initializeTimers();
-    }
-});
+if (customMinutesInput) {
+    customMinutesInput.addEventListener('input', function() {
+        // Validate minutes input
+        const minutes = parseInt(this.value);
+        if (isNaN(minutes) || minutes < 0) {
+            this.value = 0;
+        } else if (minutes > 59) {
+            this.value = 59;
+        }
+        
+        if (pitchTimeSelect.value === 'custom') {
+            initializeTimers();
+        }
+    });
+}
 
-customSecondsInput.addEventListener('input', function() {
-    // Validate seconds input
-    const seconds = parseInt(this.value);
-    if (isNaN(seconds) || seconds < 0) {
-        this.value = 0;
-    } else if (seconds > 59) {
-        this.value = 59;
-    }
-    
-    if (pitchTimeSelect.value === 'custom') {
-        initializeTimers();
-    }
-});
+if (customSecondsInput) {
+    customSecondsInput.addEventListener('input', function() {
+        // Validate seconds input
+        const seconds = parseInt(this.value);
+        if (isNaN(seconds) || seconds < 0) {
+            this.value = 0;
+        } else if (seconds > 59) {
+            this.value = 59;
+        }
+        
+        if (pitchTimeSelect.value === 'custom') {
+            initializeTimers();
+        }
+    });
+}
 numPresentersSelect.addEventListener('change', initializeTimers);
 startButton.addEventListener('click', startTimers);
 pauseButton.addEventListener('click', pauseTimers);
@@ -353,8 +447,73 @@ function initializeThemeSelector() {
 initializeTimers();
 initializeThemeSelector();
 
+// Sound toggle UI update
+function updateSoundToggleUI() {
+    const soundOnSpan = soundToggleBtn.querySelector('.sound-on');
+    const soundOffSpan = soundToggleBtn.querySelector('.sound-off');
+    
+    if (isSoundEnabled) {
+        soundToggleBtn.classList.add('active');
+        soundOnSpan.style.display = 'inline';
+        soundOffSpan.style.display = 'none';
+    } else {
+        soundToggleBtn.classList.remove('active');
+        soundOnSpan.style.display = 'none';
+        soundOffSpan.style.display = 'inline';
+    }
+}
+
+// Audio permission handlers
+if (allowAudioBtn) {
+    allowAudioBtn.addEventListener('click', () => {
+        hasAudioPermission = true;
+        isSoundEnabled = true;
+        localStorage.setItem('audioPermission', 'granted');
+        audioPermissionModal.style.display = 'none';
+        
+        // Initialize audio after permission
+        initializeAudioForMobile();
+        
+        // Play a test sound to unlock audio on iOS
+        const testAudio = new Audio();
+        testAudio.src = 'pitch-timer/voice/start.mp3';
+        testAudio.volume = 0.1;
+        testAudio.play().then(() => {
+            testAudio.pause();
+            testAudio.currentTime = 0;
+        }).catch(() => {});
+    });
+}
+
+if (denyAudioBtn) {
+    denyAudioBtn.addEventListener('click', () => {
+        hasAudioPermission = false;
+        isSoundEnabled = false;
+        localStorage.setItem('audioPermission', 'denied');
+        audioPermissionModal.style.display = 'none';
+        updateSoundToggleUI();
+    });
+}
+
+// Sound toggle button handler
+if (soundToggleBtn) {
+    soundToggleBtn.addEventListener('click', () => {
+        if (!hasAudioPermission) {
+            // If no permission, show modal again
+            audioPermissionModal.style.display = 'flex';
+        } else {
+            // Toggle sound on/off
+            isSoundEnabled = !isSoundEnabled;
+            updateSoundToggleUI();
+        }
+    });
+}
+
 // Set initial theme
 document.body.setAttribute('data-theme', 'red');
 
 // Add resize event listener to redraw canvas on window resize
 window.addEventListener('resize', drawCircle);
+
+// Check audio permission on load
+checkAudioPermission();

@@ -32,6 +32,18 @@
     <link rel="stylesheet" href="pitch-timer/style.css">
 </head>
 <body>
+    <!-- 音声許可モーダル -->
+    <div id="audio-permission-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>🔊 音声の使用許可</h2>
+            <p>タイマーの音声を再生するために<br>音声の使用を許可してください</p>
+            <div class="modal-buttons">
+                <button id="allow-audio" class="modal-btn primary">許可する</button>
+                <button id="deny-audio" class="modal-btn secondary">音声なしで使用</button>
+            </div>
+        </div>
+    </div>
+
     <div class="timer-app-container">
         <h1>車座商談タイマー</h1>
 
@@ -50,7 +62,7 @@
                         </select>
                     </div>
                     <div class="custom-time-input" id="custom-time-input" style="display: none;">
-                        <input type="number" id="custom-minutes" min="0" max="59" value="2" placeholder="分">
+                        <input type="number" id="custom-minutes" min="0" max="59" value="0" placeholder="分">
                         <span class="time-separator">:</span>
                         <input type="number" id="custom-seconds" min="0" max="59" value="0" placeholder="秒">
                     </div>
@@ -71,14 +83,25 @@
                         </select>
                     </div>
                 </div>
-                <div class="setting-card theme-card">
-                    <div class="setting-label">テーマカラー</div>
-                    <div class="theme-buttons">
-                        <button class="theme-btn active" data-theme="red">🔴</button>
-                        <button class="theme-btn" data-theme="blue">🔵</button>
-                        <button class="theme-btn" data-theme="green">🟢</button>
-                    </div>
+                <div class="setting-card sound-card">
+                    <div class="setting-label">サウンド</div>
+                    <button class="sound-toggle-btn active" id="sound-toggle">
+                        <span class="sound-on">🔊 ON</span>
+                        <span class="sound-off" style="display: none;">🔇 OFF</span>
+                    </button>
                 </div>
+            </div>
+        </div>
+        
+        <!-- テーマカラー選択を独立したセクションに -->
+        <div class="theme-selector-section">
+            <div class="theme-buttons-container">
+                <button class="theme-btn active" data-theme="red">🔴</button>
+                <button class="theme-btn" data-theme="blue">🔵</button>
+                <button class="theme-btn" data-theme="green">🟢</button>
+                <button class="theme-btn" data-theme="purple">🟣</button>
+                <button class="theme-btn" data-theme="orange">🟠</button>
+                <button class="theme-btn" data-theme="gray">⚫</button>
             </div>
         </div>
 
@@ -87,9 +110,11 @@
             <div class="current-pitch-timer">
                 <canvas id="timer-canvas" width="600" height="600"></canvas>
                 <div id="interval-display">
-                    <div class="interval-label">Next Presenter</div>
-                    <div class="interval-time">10</div>
-                    <div class="interval-subtitle">seconds remaining</div>
+                    <div class="interval-label">次の発表者まで</div>
+                    <div class="interval-content">
+                        <span class="interval-time">10</span>
+                        <span class="interval-subtitle">秒</span>
+                    </div>
                 </div>
             </div>
         </div>

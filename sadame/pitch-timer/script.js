@@ -12,6 +12,8 @@ const intervalDisplay = document.getElementById('interval-display');
 const customTimeInput = document.getElementById('custom-time-input');
 const customMinutesInput = document.getElementById('custom-minutes');
 const customSecondsInput = document.getElementById('custom-seconds');
+const customPeopleInput = document.getElementById('custom-people-input');
+const customPeopleNumber = document.getElementById('custom-people');
 const soundToggleBtn = document.getElementById('sound-toggle');
 const audioPermissionModal = document.getElementById('audio-permission-modal');
 const allowAudioBtn = document.getElementById('allow-audio');
@@ -354,6 +356,12 @@ function getCustomTime() {
     return minutes * 60 + seconds;
 }
 
+function getCustomPeople() {
+    const people = parseInt(customPeopleNumber.value) || 0;
+    console.log('Custom people:', people); // Debug log
+    return people;
+}
+
 function initializeTimers() {
     if (pitchTimeSelect.value === 'custom') {
         selectedPitchTime = getCustomTime();
@@ -366,7 +374,19 @@ function initializeTimers() {
         selectedPitchTime = parseInt(pitchTimeSelect.value);
         console.log('Using preset time:', selectedPitchTime, 'seconds'); // Debug log
     }
-    totalPresenters = parseInt(numPresentersSelect.value);
+    
+    if (numPresentersSelect.value === 'custom') {
+        totalPresenters = getCustomPeople();
+        // Minimum 1 person
+        if (totalPresenters < 1) {
+            totalPresenters = 1;
+        }
+        console.log('Using custom people:', totalPresenters); // Debug log
+    } else {
+        totalPresenters = parseInt(numPresentersSelect.value);
+        console.log('Using preset people:', totalPresenters); // Debug log
+    }
+    
     currentPitchTimeLeft = selectedPitchTime;
     currentPresenterIndex = 0;
     updateDisplay();
@@ -396,6 +416,23 @@ pitchTimeSelect.addEventListener('change', function() {
     } else {
         if (customTimeInput) {
             customTimeInput.style.display = 'none';
+        }
+    }
+    initializeTimers();
+});
+
+numPresentersSelect.addEventListener('change', function() {
+    if (numPresentersSelect.value === 'custom') {
+        if (customPeopleInput) {
+            customPeopleInput.style.display = 'flex';
+            // Ensure custom input has valid value
+            if (customPeopleNumber && (!customPeopleNumber.value || customPeopleNumber.value === '')) {
+                customPeopleNumber.value = '0';
+            }
+        }
+    } else {
+        if (customPeopleInput) {
+            customPeopleInput.style.display = 'none';
         }
     }
     initializeTimers();
@@ -432,7 +469,22 @@ if (customSecondsInput) {
         }
     });
 }
-numPresentersSelect.addEventListener('change', initializeTimers);
+
+if (customPeopleNumber) {
+    customPeopleNumber.addEventListener('input', function() {
+        // Validate people input
+        const people = parseInt(this.value);
+        if (isNaN(people) || people < 0) {
+            this.value = 0;
+        } else if (people > 99) {
+            this.value = 99;
+        }
+        
+        if (numPresentersSelect.value === 'custom') {
+            initializeTimers();
+        }
+    });
+}
 startButton.addEventListener('click', startTimers);
 pauseButton.addEventListener('click', pauseTimers);
 nextButton.addEventListener('click', nextPresenter);

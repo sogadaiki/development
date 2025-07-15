@@ -47,7 +47,12 @@
     <div class="timer-app-container">
         <h1>車座商談タイマー</h1>
 
-        <div class="settings-panel">
+        <!-- フローティング設定ボタン -->
+        <button id="settings-toggle-btn" class="settings-toggle-btn" style="display: none;">
+            <span class="settings-icon">⚙️</span>
+        </button>
+
+        <div class="settings-panel" id="settings-panel">
             <div class="settings-row">
                 <div class="setting-card">
                     <div class="setting-label">時間</div>
@@ -102,6 +107,9 @@
                 <button class="theme-btn" data-theme="purple">🟣</button>
                 <button class="theme-btn" data-theme="orange">🟠</button>
                 <button class="theme-btn" data-theme="gray">⚫</button>
+                <button id="fullscreen-btn" class="fullscreen-btn" title="最大化表示">
+                    <span class="fullscreen-icon">⛶</span>
+                </button>
             </div>
         </div>
 

@@ -16,6 +16,9 @@ const soundToggleBtn = document.getElementById('sound-toggle');
 const audioPermissionModal = document.getElementById('audio-permission-modal');
 const allowAudioBtn = document.getElementById('allow-audio');
 const denyAudioBtn = document.getElementById('deny-audio');
+const settingsToggleBtn = document.getElementById('settings-toggle-btn');
+const timerAppContainer = document.querySelector('.timer-app-container');
+const fullscreenBtn = document.getElementById('fullscreen-btn');
 
 let currentPitchTimer;
 let intervalCountdownTimer;
@@ -147,6 +150,7 @@ function hideCompletionMessage() {
     if (overlay) {
         overlay.remove();
     }
+    exitFullscreenMode(); // Exit fullscreen mode when closing completion message
 }
 
 function drawCircle() {
@@ -198,8 +202,8 @@ function drawCircle() {
     ctx.stroke();
 
     // Draw time text in the center with theme color
-    const fontSize = Math.min(timerCanvas.width, timerCanvas.height) * 0.18;
-    ctx.font = `bold ${fontSize}px Inter, system-ui, sans-serif`;
+    const timeSize = Math.min(timerCanvas.width, timerCanvas.height) * 0.18;
+    ctx.font = `bold ${timeSize}px Inter, system-ui, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
@@ -209,7 +213,16 @@ function drawCircle() {
     textGradient.addColorStop(1, colors.secondary);
     ctx.fillStyle = textGradient;
     
-    ctx.fillText(formatTime(currentPitchTimeLeft), centerX, centerY);
+    // Draw time text slightly above center
+    const timeY = centerY - (timeSize * 0.15);
+    ctx.fillText(formatTime(currentPitchTimeLeft), centerX, timeY);
+    
+    // Draw presenter info below the time (smaller size)
+    const presenterSize = Math.min(timerCanvas.width, timerCanvas.height) * 0.027; // Reduced to 1/3 of previous size
+    ctx.font = `600 ${presenterSize}px Inter, system-ui, sans-serif`;
+    ctx.fillStyle = '#666';
+    const presenterY = centerY + (timeSize * 0.35); // Moved closer to time
+    ctx.fillText(`${currentPresenterIndex + 1}人目の発表者`, centerX, presenterY);
 }
 
 function updateDisplay() {
@@ -240,6 +253,9 @@ function startTimers() {
     pauseButton.disabled = false;
     nextButton.disabled = false;
     resetButton.disabled = false;
+
+    // Enter fullscreen mode when timer starts
+    enterFullscreenMode();
 
     // Only play start sound for non-first presenters (handled in interval countdown)
 
@@ -328,6 +344,7 @@ function resetTimers() {
     currentPresenterIndex = 0; // Reset presenter index
     initializeTimers();
     resetButtonState();
+    exitFullscreenMode(); // Exit fullscreen mode on reset
 }
 
 function getCustomTime() {
@@ -514,6 +531,31 @@ document.body.setAttribute('data-theme', 'red');
 
 // Add resize event listener to redraw canvas on window resize
 window.addEventListener('resize', drawCircle);
+
+// Fullscreen mode functions
+function enterFullscreenMode() {
+    timerAppContainer.classList.add('fullscreen-mode');
+    settingsToggleBtn.style.display = 'flex';
+}
+
+function exitFullscreenMode() {
+    timerAppContainer.classList.remove('fullscreen-mode');
+    settingsToggleBtn.style.display = 'none';
+}
+
+// Settings toggle button handler
+if (settingsToggleBtn) {
+    settingsToggleBtn.addEventListener('click', () => {
+        exitFullscreenMode();
+    });
+}
+
+// Fullscreen button handler
+if (fullscreenBtn) {
+    fullscreenBtn.addEventListener('click', () => {
+        enterFullscreenMode();
+    });
+}
 
 // Check audio permission on load
 checkAudioPermission();
